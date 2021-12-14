@@ -12,11 +12,9 @@
 
 **당신을 위한 주식 거래 플랫폼 - Boostock**
 
-## 데모링크
+## 프로젝트 소개
 
-```
-https://boostock.kro.kr/
-```
+- 이 프로젝트는 [부스트캠프 웹·모바일 6기 멤버십 그룹 프로젝트](https://github.com/boostcampwm-2021/web30-boostock)에서 진행한 프로젝트를 기반으로, 리팩토링을 통해 [클린 코드](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882/ref=sr_1_1?keywords=clean+code&qid=1639490377&sr=8-1)와 [리팩토링 2판](https://www.amazon.com/Refactoring-Improving-Existing-Addison-Wesley-Signature/dp/0134757599/ref=sr_1_1?keywords=refactoring&qid=1639489794&sr=8-1) 에서 배운 지식을 적용하기 위한 목적으로 만들어졌습니다.
 
 ## 🧑‍💻 참여자
 
