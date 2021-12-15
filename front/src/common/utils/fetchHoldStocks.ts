@@ -4,8 +4,8 @@ const fetchHoldStockList = async () => {
 			method: 'GET',
 			credentials: 'include',
 			headers: {
-				'Content-Type': 'application/json; charset=utf-8',
-			},
+				'Content-Type': 'application/json; charset=utf-8'
+			}
 		});
 		if (res.status !== 200) throw new Error();
 		const { holdStocks } = await res.json();

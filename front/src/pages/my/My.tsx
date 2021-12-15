@@ -16,11 +16,12 @@ enum TAB {
 	HOLDS = '보유종목',
 	TRANSACTIONS = '체결내역',
 	ORDERS_ASK = '매도내역',
-	ORDERS_BID = '매수내역',
+	ORDERS_BID = '매수내역'
 }
 
 const calculateValuationPrice = (stockCode: string, stockList: IStockListItem[]) =>
-	stockList.find((stockListStateItem: IStockListItem) => stockCode === stockListStateItem.code)?.price || 0;
+	stockList.find((stockListStateItem: IStockListItem) => stockCode === stockListStateItem.code)
+		?.price || 0;
 
 const calculateUserValuationInfo = (stock: IHoldStockItem, stockList: IStockListItem[]) => {
 	const valuationPrice = calculateValuationPrice(stock.code, stockList);
@@ -32,7 +33,7 @@ const calculateUserValuationInfo = (stock: IHoldStockItem, stockList: IStockList
 		averageAskPrice: stock.average,
 		totalAskPrice: stock.amount * stock.average,
 		totalValuationPrice: stock.amount * valuationPrice,
-		totalValuationProfit: stock.amount * valuationPrice - stock.amount * stock.average,
+		totalValuationProfit: stock.amount * valuationPrice - stock.amount * stock.average
 	};
 };
 
@@ -42,7 +43,8 @@ const reCalculateUserValuationInfo = (userHold: IUserHoldItem, stockList: IStock
 	return {
 		...userHold,
 		totalValuationPrice: userHold.holdAmount * valuationPrice,
-		totalValuationProfit: userHold.holdAmount * valuationPrice - userHold.holdAmount * userHold.averageAskPrice,
+		totalValuationProfit:
+			userHold.holdAmount * valuationPrice - userHold.holdAmount * userHold.averageAskPrice
 	};
 };
 
@@ -66,7 +68,7 @@ const My = () => {
 	const handleUpdateHolds = async () => {
 		const holdStocks = await fetchUserHoldList();
 
-		setHolds(() => [...holdStocks.map((stock) => calculateUserValuationInfo(stock, stockListState))]);
+		setHolds(() => [...holdStocks.map(stock => calculateUserValuationInfo(stock, stockListState))]);
 	};
 
 	const switchTab = (index: number) => setTab(Object.values(TAB)[index]);
@@ -99,7 +101,7 @@ const My = () => {
 	}, []);
 
 	useEffect(() => {
-		setHolds((prev) => [...prev.map((hold) => reCalculateUserValuationInfo(hold, stockListState))]);
+		setHolds(prev => [...prev.map(hold => reCalculateUserValuationInfo(hold, stockListState))]);
 	}, [stockListState]);
 
 	if (!isLoggedIn) {
@@ -120,8 +122,7 @@ const My = () => {
 							role="button"
 							tabIndex={0}
 							onClick={() => switchTab(index)}
-							onKeyDown={() => switchTab(index)}
-						>
+							onKeyDown={() => switchTab(index)}>
 							{Object.values(TAB)[index]}
 						</div>
 					))}

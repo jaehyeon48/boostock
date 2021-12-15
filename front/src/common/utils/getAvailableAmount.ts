@@ -3,7 +3,9 @@ import { IHoldStockItem } from '@src/types';
 export const getUserBidAvailable = async (isLoggedIn: boolean): Promise<number> => {
 	if (!isLoggedIn) return 0;
 	try {
-		const res = await fetch(`${process.env.SERVER_URL}/api/user/balance?start=0&end=0`, { credentials: 'include' });
+		const res = await fetch(`${process.env.SERVER_URL}/api/user/balance?start=0&end=0`, {
+			credentials: 'include'
+		});
 		if (!res.ok) throw new Error();
 		const { balance }: { balance: number } = await res.json();
 		return balance;
@@ -12,7 +14,10 @@ export const getUserBidAvailable = async (isLoggedIn: boolean): Promise<number> 
 	}
 };
 
-export const getUserAskAvailable = async (stockCode: string, isLoggedIn: boolean): Promise<number> => {
+export const getUserAskAvailable = async (
+	stockCode: string,
+	isLoggedIn: boolean
+): Promise<number> => {
 	if (!isLoggedIn) return 0;
 
 	try {

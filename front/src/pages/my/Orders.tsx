@@ -24,7 +24,7 @@ const refresh = (
 	stockList: IStockListItem[],
 	orders: IOrder[],
 	setOrders: React.Dispatch<React.SetStateAction<IOrder[]>>,
-	setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+	setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
 	setLoading(true);
 
@@ -33,12 +33,12 @@ const refresh = (
 		method: 'GET',
 		credentials: 'include',
 		headers: {
-			'Content-Type': 'application/json; charset=utf-8',
-		},
+			'Content-Type': 'application/json; charset=utf-8'
+		}
 	}).then((res: Response) => {
 		if (res.ok) {
-			res.json().then((data) => {
-				setOrders((prev) => [
+			res.json().then(data => {
+				setOrders(prev => [
 					...prev,
 					...data.pendingOrder.map(
 						(order: {
@@ -55,12 +55,12 @@ const refresh = (
 								orderTime: new Date(order.createdAt).getTime() + NINE_HOURS_IN_MILLISECONDS,
 								orderType: order.type,
 								stockCode: order.stockCode,
-								stockName: stockList.find((stock) => stock.code === order.stockCode)?.nameKorean,
+								stockName: stockList.find(stock => stock.code === order.stockCode)?.nameKorean,
 								price: order.price,
-								orderAmount: order.amount,
+								orderAmount: order.amount
 							};
-						},
-					),
+						}
+					)
 				]);
 
 				if (data.pendingOrder.length > 0) setLoading(false);
@@ -69,25 +69,31 @@ const refresh = (
 	});
 };
 
-const cancel = (orderId: number, orderType: OrderType, setOrders: React.Dispatch<React.SetStateAction<IOrder[]>>) => {
+const cancel = (
+	orderId: number,
+	orderType: OrderType,
+	setOrders: React.Dispatch<React.SetStateAction<IOrder[]>>
+) => {
 	fetch(`${process.env.SERVER_URL}/api/user/order?id=${orderId}&type=${orderType}`, {
 		method: 'DELETE',
 		credentials: 'include',
 		headers: {
-			'Content-Type': 'application/json;charset=utf-8',
-		},
+			'Content-Type': 'application/json;charset=utf-8'
+		}
 	}).then((res: Response) => {
 		if (res.ok) TOAST.success('주문이 취소되었습니다.');
 		else TOAST.error('주문이 취소하지 못했습니다. 잠시후 재시도해주세요.');
 
-		setOrders((prev) => [...prev.filter((order) => order.orderId !== orderId)]);
+		setOrders(prev => [...prev.filter(order => order.orderId !== orderId)]);
 	});
 };
 
 const Orders = ({ type }: { type: OrderType }) => {
 	const stockList = useRecoilValue<IStockListItem[]>(stockListAtom);
 	const [orders, setOrders] = useState<IOrder[]>([]);
-	const [rootRef, targetRef, loading] = useInfinityScroll(refresh.bind(undefined, type, stockList, orders, setOrders));
+	const [rootRef, targetRef, loading] = useInfinityScroll(
+		refresh.bind(undefined, type, stockList, orders, setOrders)
+	);
 
 	const getOrder = (order: IOrder) => {
 		return (
@@ -104,8 +110,7 @@ const Orders = ({ type }: { type: OrderType }) => {
 					<button
 						className="cancel-order-btn"
 						type="button"
-						onClick={() => cancel(order.orderId, order.orderType, setOrders)}
-					>
+						onClick={() => cancel(order.orderId, order.orderType, setOrders)}>
 						주문취소
 					</button>
 				</td>

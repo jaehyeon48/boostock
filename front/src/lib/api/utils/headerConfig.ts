@@ -2,7 +2,7 @@ export function generateConfig(options: RequestInit = {}, body: unknown = null):
 	const requestConfig = {
 		method: options.method ?? 'GET',
 		credentials: options.credentials ?? 'include',
-		...options,
+		...options
 	};
 
 	if (body) {

@@ -10,9 +10,9 @@ const chartAtom = atom<IChartItem[]>({
 			priceEnd: 0,
 			priceLow: 0,
 			priceHigh: 0,
-			amount: 0,
-		},
-	],
+			amount: 0
+		}
+	]
 });
 
 export default chartAtom;

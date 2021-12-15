@@ -10,10 +10,10 @@ const ModeSwitch = () => {
 	const setUser = useSetRecoilState<IUser>(userAtom);
 
 	const toggleTheme = () => {
-		setUser((user) => {
+		setUser(user => {
 			return {
 				...user,
-				theme: user.theme === 'light' ? 'dark' : 'light',
+				theme: user.theme === 'light' ? 'dark' : 'light'
 			};
 		});
 	};

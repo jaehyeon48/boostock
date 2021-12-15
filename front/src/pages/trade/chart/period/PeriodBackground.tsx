@@ -10,7 +10,7 @@ import {
 	formatCandleDate,
 	getTextColor,
 	getBorderColor,
-	getLegendColor,
+	getLegendColor
 } from '../common';
 
 const CANVAS_WIDTH = 850;
@@ -49,20 +49,39 @@ const calculateNumOfPartitions = (numOfCandles: number) => {
 	return 3;
 };
 
-const drawCandleDate = ({ ctx, index, createdAt, candleWidth, numOfPartitions, chartType }: IDrawCandleDateArgs) => {
+const drawCandleDate = ({
+	ctx,
+	index,
+	createdAt,
+	candleWidth,
+	numOfPartitions,
+	chartType
+}: IDrawCandleDateArgs) => {
 	if (index % numOfPartitions !== 0) return;
 
-	const posX = Math.floor(CANVAS_WIDTH - (candleWidth + CANDLE_GAP) * (index + 1) + candleWidth / 2);
+	const posX = Math.floor(
+		CANVAS_WIDTH - (candleWidth + CANDLE_GAP) * (index + 1) + candleWidth / 2
+	);
 
 	ctx.beginPath();
 	ctx.moveTo(posX + MAKE_CLEAR_OFFSET, 0);
 	ctx.lineTo(posX + MAKE_CLEAR_OFFSET, LEGEND_TOP - 1);
 	ctx.stroke();
 
-	ctx.fillText(formatCandleDate(createdAt, chartType), posX, Math.floor(LEGEND_TOP + BOX_HEIGHT / 2));
+	ctx.fillText(
+		formatCandleDate(createdAt, chartType),
+		posX,
+		Math.floor(LEGEND_TOP + BOX_HEIGHT / 2)
+	);
 };
 
-const drawPeriodBackground = ({ ctx, chartData, candleWidth, chartType, theme }: IDrawPeriodBackground): void => {
+const drawPeriodBackground = ({
+	ctx,
+	chartData,
+	candleWidth,
+	chartType,
+	theme
+}: IDrawPeriodBackground): void => {
 	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	ctx.font = '12px Lato';
 	ctx.textAlign = 'center';
@@ -88,7 +107,7 @@ const drawPeriodBackground = ({ ctx, chartData, candleWidth, chartType, theme }:
 			createdAt,
 			candleWidth,
 			numOfPartitions: calculateNumOfPartitions(chartData.length),
-			chartType,
+			chartType
 		});
 	});
 };
@@ -110,12 +129,17 @@ const PeriodBackground = ({ chartData, chartType }: IProps) => {
 			chartData,
 			candleWidth,
 			chartType,
-			theme,
+			theme
 		});
 	}, [periodBackground, chartData, chartType, theme]);
 
 	return (
-		<canvas className="chart-canvas chart-period-legend" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} ref={periodBackground} />
+		<canvas
+			className="chart-canvas chart-period-legend"
+			width={CANVAS_WIDTH}
+			height={CANVAS_HEIGHT}
+			ref={periodBackground}
+		/>
 	);
 };
 

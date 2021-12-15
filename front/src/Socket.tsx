@@ -9,7 +9,7 @@ import {
 	IAskOrderItem,
 	IBidOrderItem,
 	IStockListItem,
-	IStockChartItem,
+	IStockChartItem
 } from '@src/types';
 import {
 	chartAtom,
@@ -19,9 +19,14 @@ import {
 	websocketAtom,
 	askOrdersAtom,
 	bidOrdersAtom,
-	stockListAtom,
+	stockListAtom
 } from '@recoil';
-import { fetchHoldStocks, translateRequestData, translateResponseData, Emitter } from '@common/utils';
+import {
+	fetchHoldStocks,
+	translateRequestData,
+	translateResponseData,
+	Emitter
+} from '@common/utils';
 import { ONE_SEC_IN_MILLISECONDS } from '@common/constants';
 
 interface IProps {
@@ -74,11 +79,17 @@ const MAX_EXECUTION_SIZE = 50;
 let reconnector: NodeJS.Timer;
 
 // 해당 가격의 호가 막대가 존재하는지 판별
-function isOrderBarExist(orders: Array<IAskOrderItem | IBidOrderItem>, orderPrice: number): boolean {
+function isOrderBarExist(
+	orders: Array<IAskOrderItem | IBidOrderItem>,
+	orderPrice: number
+): boolean {
 	return !!orders.find(({ price }) => price === orderPrice);
 }
 
-function createNewOrderBar(orders: Array<IAskOrderItem | IBidOrderItem>, order: IOrder): Array<IAskOrderItem | IBidOrderItem> {
+function createNewOrderBar(
+	orders: Array<IAskOrderItem | IBidOrderItem>,
+	order: IOrder
+): Array<IAskOrderItem | IBidOrderItem> {
 	const numOfOrders = orders.length;
 	const { type, price: orderPrice, amount } = order;
 	let insertIdx = orders.findIndex(({ price }) => price < orderPrice);
@@ -89,31 +100,35 @@ function createNewOrderBar(orders: Array<IAskOrderItem | IBidOrderItem>, order: 
 		{
 			type,
 			price: orderPrice,
-			amount,
+			amount
 		},
-		...orders.slice(insertIdx, numOfOrders),
+		...orders.slice(insertIdx, numOfOrders)
 	];
 
 	const resultLength = result.length;
 
-	if (resultLength <= MAX_NUM_OF_ORDER_BARS) return type === 1 ? (result as IAskOrderItem[]) : (result as IBidOrderItem[]);
+	if (resultLength <= MAX_NUM_OF_ORDER_BARS)
+		return type === 1 ? (result as IAskOrderItem[]) : (result as IBidOrderItem[]);
 	return type === 1
 		? (result.slice(1, resultLength) as IAskOrderItem[])
 		: (result.slice(0, resultLength - 1) as IBidOrderItem[]);
 }
 
-function updateNonTargetStock(stockList: IStockListItem[], data: INonTargetStockData): IStockListItem[] {
+function updateNonTargetStock(
+	stockList: IStockListItem[],
+	data: INonTargetStockData
+): IStockListItem[] {
 	const { code: stockCode, price, amount } = data;
 
-	return stockList.map((stockItem) => {
+	return stockList.map(stockItem => {
 		if (stockItem.code !== stockCode) return stockItem;
 
-		const newChartsData: IStockChartItem[] = stockItem.charts.map((chartItem) => {
+		const newChartsData: IStockChartItem[] = stockItem.charts.map(chartItem => {
 			return chartItem.type === 1
 				? chartItem
 				: {
 						...chartItem,
-						volume: chartItem.volume + price * amount,
+						volume: chartItem.volume + price * amount
 				  };
 		});
 
@@ -121,7 +136,7 @@ function updateNonTargetStock(stockList: IStockListItem[], data: INonTargetStock
 			...stockItem,
 			price,
 			amount,
-			charts: newChartsData,
+			charts: newChartsData
 		};
 	});
 }
@@ -129,17 +144,17 @@ function updateNonTargetStock(stockList: IStockListItem[], data: INonTargetStock
 function updateTargetStock(
 	stockList: IStockListItem[],
 	data: ITargetStockData,
-	currentChart: IStockChartItem[],
+	currentChart: IStockChartItem[]
 ): IStockListItem[] {
 	const { code: stockCode, price, amount } = data;
-	return stockList.map((stockItem) => {
+	return stockList.map(stockItem => {
 		if (stockItem.code !== stockCode) return stockItem;
 
 		return {
 			...stockItem,
 			price,
 			amount,
-			charts: currentChart,
+			charts: currentChart
 		};
 	});
 }
@@ -147,7 +162,7 @@ function updateTargetStock(
 // 주문 접수 시 호가 정보 수정
 function updateOrdersAfterAcceptOrder(
 	orders: Array<IAskOrderItem | IBidOrderItem>,
-	order: IOrder,
+	order: IOrder
 ): Array<IAskOrderItem | IBidOrderItem> {
 	const { price: orderPrice, amount: orderAmount, type: orderType } = order;
 
@@ -157,18 +172,20 @@ function updateOrdersAfterAcceptOrder(
 	}
 
 	const result = orders.map(({ type, price, amount }) =>
-		price === orderPrice && type === orderType ? { type, price, amount: amount + orderAmount } : { type, price, amount },
+		price === orderPrice && type === orderType
+			? { type, price, amount: amount + orderAmount }
+			: { type, price, amount }
 	);
 
 	return orderType === 1 ? (result as IAskOrderItem[]) : (result as IBidOrderItem[]);
 }
 
 function updateAskOrders(orders: IAskOrderItem[]): IAskOrderItem[] {
-	return orders.map<IAskOrderItem>((order) => ({ ...order, amount: Number(order.amount) }));
+	return orders.map<IAskOrderItem>(order => ({ ...order, amount: Number(order.amount) }));
 }
 
 function updateBidOrders(orders: IBidOrderItem[]): IBidOrderItem[] {
-	return orders.map<IBidOrderItem>((order) => ({ ...order, amount: Number(order.amount) }));
+	return orders.map<IBidOrderItem>(order => ({ ...order, amount: Number(order.amount) }));
 }
 
 const dataToExecutionForm = (conclusionList: IResponseConclusions[]): IStockExecutionItem[] =>
@@ -179,21 +196,24 @@ const dataToExecutionForm = (conclusionList: IResponseConclusions[]): IStockExec
 			volume: price * amount,
 			amount,
 			stockCode,
-			id: _id,
+			id: _id
 		};
 	});
 
-const addNewExecution = (setStockExecution: SetterOrUpdater<IStockExecutionInfo>, match: IMatchData) => {
+const addNewExecution = (
+	setStockExecution: SetterOrUpdater<IStockExecutionInfo>,
+	match: IMatchData
+) => {
 	const newExecution = {
 		id: match.id,
 		price: match.price,
 		amount: match.amount,
 		timestamp: match.createdAt,
 		stockCode: match.code,
-		volume: match.price * match.amount,
+		volume: match.price * match.amount
 	};
 
-	setStockExecution((prev) => {
+	setStockExecution(prev => {
 		const { stockCode, executions } = prev;
 		if (stockCode !== match.code) return { stockCode, executions };
 
@@ -212,7 +232,7 @@ const startSocket = ({
 	setBidOrders,
 	setHold,
 	setDailyLog,
-	setChart,
+	setChart
 }: IStartSocket) => {
 	const webSocket = new WebSocket(process.env.WEBSOCKET || '');
 	webSocket.binaryType = 'arraybuffer';
@@ -232,11 +252,11 @@ const startSocket = ({
 				setBidOrders,
 				setHold,
 				setDailyLog,
-				setChart,
+				setChart
 			});
 		}, ONE_SEC_IN_MILLISECONDS);
 	};
-	webSocket.onmessage = async (event) => {
+	webSocket.onmessage = async event => {
 		const { type, data } = translateResponseData(event.data);
 		switch (type) {
 			case 'STOCKS_INFO': {
@@ -245,35 +265,40 @@ const startSocket = ({
 			}
 			case 'UPDATE_STOCK': {
 				if (!data) return;
-				setStockList((prev) => updateNonTargetStock(prev, data));
+				setStockList(prev => updateNonTargetStock(prev, data));
 				break;
 			}
 			case 'UPDATE_TARGET': {
 				const { match: matchData, currentChart, bidAsk } = data;
-				const { askOrders, bidOrders }: { askOrders: IAskOrderItem[]; bidOrders: IBidOrderItem[] } = bidAsk;
+				const { askOrders, bidOrders }: { askOrders: IAskOrderItem[]; bidOrders: IBidOrderItem[] } =
+					bidAsk;
 
 				setAskOrders(() => updateAskOrders(askOrders));
 				setBidOrders(() => updateBidOrders(bidOrders));
 
-				setStockList((prev) => updateTargetStock(prev, matchData, currentChart));
+				setStockList(prev => updateTargetStock(prev, matchData, currentChart));
 				addNewExecution(setStockExecution, data.match);
 				break;
 			}
 			case 'ORDER': {
 				const { type } = data;
-				if (type === 1) setAskOrders((prev) => updateOrdersAfterAcceptOrder(prev, data) as IAskOrderItem[]);
-				else setBidOrders((prev) => updateOrdersAfterAcceptOrder(prev, data) as IBidOrderItem[]);
+				if (type === 1)
+					setAskOrders(prev => updateOrdersAfterAcceptOrder(prev, data) as IAskOrderItem[]);
+				else setBidOrders(prev => updateOrdersAfterAcceptOrder(prev, data) as IBidOrderItem[]);
 				break;
 			}
 			case 'BASE_STOCK': {
-				const stockExecutionForm = { stockCode: data.stockCode, executions: dataToExecutionForm(data.conclusions) };
+				const stockExecutionForm = {
+					stockCode: data.stockCode,
+					executions: dataToExecutionForm(data.conclusions)
+				};
 				setStockExecution(stockExecutionForm);
 				break;
 			}
 			case 'CHART': {
 				if (data.type === 1440) {
 					const { _id: id, priceEnd, amount, createdAt } = data;
-					setDailyLog((prev) => [{ _id: id, priceEnd, amount, createdAt }, ...prev]);
+					setDailyLog(prev => [{ _id: id, priceEnd, amount, createdAt }, ...prev]);
 				}
 				const currentChartType = Number(window.localStorage.getItem('chartType'));
 				if (data.type !== currentChartType) break;
@@ -284,7 +309,7 @@ const startSocket = ({
 					priceEnd: 0,
 					priceLow: 0,
 					priceHigh: 0,
-					amount: 0,
+					amount: 0
 				};
 
 				const newChart: IChartItem = {
@@ -293,7 +318,7 @@ const startSocket = ({
 					priceEnd: data.priceEnd,
 					priceLow: data.priceLow,
 					priceHigh: data.priceHigh,
-					amount: data.amount,
+					amount: data.amount
 				};
 
 				setChart((prev: IChartItem[]) => {
@@ -307,7 +332,7 @@ const startSocket = ({
 					TOAST.success(
 						<p>
 							<b>{data.stockCode}</b> 매수 주문 체결되었습니다.
-						</p>,
+						</p>
 					);
 
 					Emitter.emit('UPDATE_USER_HOLDS');
@@ -316,7 +341,7 @@ const startSocket = ({
 					TOAST.success(
 						<p>
 							<b>{data.stockCode}</b> 매도 주문 체결되었습니다.
-						</p>,
+						</p>
 					);
 
 					Emitter.emit('UPDATE_USER_BALANCE');
@@ -334,7 +359,7 @@ const startSocket = ({
 	Emitter.on('REGISTER_ALARM', (alarmToken: string) => {
 		const alarmData = {
 			type: 'alarm',
-			alarmToken,
+			alarmToken
 		};
 		webSocket.send(translateRequestData(alarmData));
 	});
@@ -350,7 +375,16 @@ const Socket = ({ children }: IProps) => {
 	const setDailyLog = useSetRecoilState(dailyLogAtom);
 	const setChart = useSetRecoilState(chartAtom);
 
-	startSocket({ setSocket, setStockList, setStockExecution, setAskOrders, setBidOrders, setHold, setDailyLog, setChart });
+	startSocket({
+		setSocket,
+		setStockList,
+		setStockExecution,
+		setAskOrders,
+		setBidOrders,
+		setHold,
+		setDailyLog,
+		setChart
+	});
 
 	return <>{children}</>;
 };

@@ -5,8 +5,8 @@ const stockExecutionAtom = atom<IStockExecutionInfo>({
 	key: 'stockExecutionAtom',
 	default: {
 		stockCode: '',
-		executions: [],
-	},
+		executions: []
+	}
 });
 
 export default stockExecutionAtom;

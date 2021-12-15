@@ -6,7 +6,10 @@ interface IBalanceResponseData {
 	log: IHistory[];
 }
 
-export default async function getBalance(beforeTime: number, currentTime: number): Promise<IBalanceResponseData | null> {
+export default async function getBalance(
+	beforeTime: number,
+	currentTime: number
+): Promise<IBalanceResponseData | null> {
 	const headers = generateConfig();
 	const URL = generateURL('user/balance', `start=${beforeTime}&end=${currentTime}`);
 

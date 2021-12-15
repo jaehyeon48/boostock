@@ -2,7 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { IChartItem, Theme, IUser } from '@src/types';
 import { userAtom } from '@recoil';
-import { ICrossLine, getTextColor, MAKE_CLEAR_OFFSET, getBorderColor, formatCandleDate } from '../common';
+import {
+	ICrossLine,
+	getTextColor,
+	MAKE_CLEAR_OFFSET,
+	getBorderColor,
+	formatCandleDate
+} from '../common';
 
 const CANVAS_WIDTH = 850;
 const CANVAS_HEIGHT = 400;
@@ -29,7 +35,13 @@ const formatPeriodLegend = (timestamp: number) => {
 	return `${yyyy}-${mm}-${dd} ${formatCandleDate(timestamp)}`;
 };
 
-const drawPeriodLegend = ({ ctx, chartData, crossLine, theme, numOfCandles }: IDrawPeriodLegendArgs): void => {
+const drawPeriodLegend = ({
+	ctx,
+	chartData,
+	crossLine,
+	theme,
+	numOfCandles
+}: IDrawPeriodLegendArgs): void => {
 	const VOLUME_TOP = Math.floor(CANVAS_HEIGHT * 0.7);
 	const LEGEND_TOP = Math.floor(CANVAS_HEIGHT * 0.9);
 	const textPadding = 5;
@@ -78,12 +90,17 @@ const PeriodLegend = ({ chartData, crossLine }: IProps) => {
 			chartData,
 			crossLine,
 			numOfCandles,
-			theme,
+			theme
 		});
 	}, [periodLegendRef, crossLine, chartData, theme]);
 
 	return (
-		<canvas className="chart-canvas chart-period-legend" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} ref={periodLegendRef} />
+		<canvas
+			className="chart-canvas chart-period-legend"
+			width={CANVAS_WIDTH}
+			height={CANVAS_HEIGHT}
+			ref={periodLegendRef}
+		/>
 	);
 };
 

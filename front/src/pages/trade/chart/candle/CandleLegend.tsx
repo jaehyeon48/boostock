@@ -13,7 +13,7 @@ import {
 	getMinValue,
 	getTextColor,
 	getBorderColor,
-	getText,
+	getText
 } from '../common';
 
 const CANVAS_WIDTH = 950;
@@ -38,7 +38,12 @@ interface IDrawHoverCandleLegendArgs {
 	convertToYPosition: (value: number) => number;
 }
 
-const drawCandleLegend = ({ ctx, chartData, theme, convertToYPosition }: IDrawCandleLegendArgs): void => {
+const drawCandleLegend = ({
+	ctx,
+	chartData,
+	theme,
+	convertToYPosition
+}: IDrawCandleLegendArgs): void => {
 	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	ctx.font = '11px Lato';
 	ctx.fillStyle = getTextColor(theme);
@@ -58,11 +63,22 @@ const drawCandleLegend = ({ ctx, chartData, theme, convertToYPosition }: IDrawCa
 		ctx.fillStyle = ctx.strokeStyle;
 		ctx.fillRect(LEGEND_LEFT, yPos - LEGEND_HEIGHT / 2, LEGEND_WIDTH, LEGEND_HEIGHT);
 		ctx.fillStyle = getTextColor(theme === 'light' ? 'dark' : 'light');
-		ctx.fillText(formatNumber(recentChart.priceEnd), LEGEND_LEFT + LEGEND_WIDTH / 10, yPos + LEGEND_HEIGHT / 4);
+		ctx.fillText(
+			formatNumber(recentChart.priceEnd),
+			LEGEND_LEFT + LEGEND_WIDTH / 10,
+			yPos + LEGEND_HEIGHT / 4
+		);
 	}
 };
 
-const drawHoverCandleLegend = ({ crossLine, ctx, minPrice, maxPrice, theme, convertToYPosition }: IDrawHoverCandleLegendArgs) => {
+const drawHoverCandleLegend = ({
+	crossLine,
+	ctx,
+	minPrice,
+	maxPrice,
+	theme,
+	convertToYPosition
+}: IDrawHoverCandleLegendArgs) => {
 	if (!crossLine.event || crossLine.event.target !== ctx.canvas) return;
 
 	const ratio = (crossLine.posY - CANVAS_PADDING) / (CANVAS_HEIGHT - CANVAS_PADDING * 2);
@@ -100,7 +116,7 @@ const CandleLegend = ({ chartData, crossLine, getYPosition }: IGraphComponentPro
 			ctx,
 			chartData,
 			theme,
-			convertToYPosition,
+			convertToYPosition
 		});
 
 		drawHoverCandleLegend({
@@ -109,12 +125,17 @@ const CandleLegend = ({ chartData, crossLine, getYPosition }: IGraphComponentPro
 			maxPrice,
 			minPrice,
 			theme,
-			convertToYPosition,
+			convertToYPosition
 		});
 	}, [candleLegendRef, crossLine, chartData, theme]);
 
 	return (
-		<canvas className="chart-canvas chart-candle-legend" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} ref={candleLegendRef} />
+		<canvas
+			className="chart-canvas chart-candle-legend"
+			width={CANVAS_WIDTH}
+			height={CANVAS_HEIGHT}
+			ref={candleLegendRef}
+		/>
 	);
 };
 

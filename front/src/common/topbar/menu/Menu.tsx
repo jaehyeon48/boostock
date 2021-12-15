@@ -80,8 +80,8 @@ const Menu = ({ pages }: Props) => {
 	return (
 		<nav className="container">
 			<div>
-				{pages.map((page) => (
-					<NavLink to={page.url} key={page.id} className={(isActive) => (isActive ? 'active' : '')}>
+				{pages.map(page => (
+					<NavLink to={page.url} key={page.id} className={isActive => (isActive ? 'active' : '')}>
 						{page.title}
 					</NavLink>
 				))}

@@ -15,6 +15,6 @@ export {
 	stockListAtom,
 	holdStockListAtom,
 	userAtom,
-	websocketAtom,
+	websocketAtom
 };
 export * from './stockOrders';

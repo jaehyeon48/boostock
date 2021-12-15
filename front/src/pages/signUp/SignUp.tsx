@@ -27,17 +27,18 @@ const SignUp = () => {
 
 	const changeName = (event: ChangeEvent<HTMLInputElement>) => setUsername(event.target.value);
 	const changeEmail = (event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value);
-	const changeTerm = () => setTerm((prev) => !prev);
+	const changeTerm = () => setTerm(prev => !prev);
 
-	const isValid = () => username.length > 0 && emailValidator.test(email) && isEmailValidate && term;
+	const isValid = () =>
+		username.length > 0 && emailValidator.test(email) && isEmailValidate && term;
 
 	const checkEamil = () => {
 		fetch(`${process.env.SERVER_URL}/api/user/email?email=${email}`, {
 			method: 'GET',
 			credentials: 'include',
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8',
-			},
+				'Content-Type': 'application/json;charset=utf-8'
+			}
 		}).then(async (res: Response) => {
 			const data = await res.json();
 			if (res.ok) {
@@ -59,9 +60,9 @@ const SignUp = () => {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8',
+				'Content-Type': 'application/json;charset=utf-8'
 			},
-			body: JSON.stringify({ code: query.get('code'), username, email }),
+			body: JSON.stringify({ code: query.get('code'), username, email })
 		}).then((res: Response) => {
 			if (res.ok) {
 				Emitter.emit('REGISTER_ALARM', getCookie('alarm_token'));
@@ -80,8 +81,14 @@ const SignUp = () => {
 				<h1>회원가입</h1>
 				<Terms />
 				<label className="signup-label" htmlFor="terms">
-					<input type="checkbox" id="terms" name="terms" value={term ? 'on' : 'off'} onClick={changeTerm} /> 이용약관
-					동의
+					<input
+						type="checkbox"
+						id="terms"
+						name="terms"
+						value={term ? 'on' : 'off'}
+						onClick={changeTerm}
+					/>{' '}
+					이용약관 동의
 				</label>
 				<label className="signup-label" htmlFor="username">
 					<span>이름</span>
@@ -108,11 +115,21 @@ const SignUp = () => {
 							onChange={changeEmail}
 						/>
 					</label>
-					<button className="signup-submit signup-submit-validate" type="button" tabIndex={0} onClick={checkEamil}>
+					<button
+						className="signup-submit signup-submit-validate"
+						type="button"
+						tabIndex={0}
+						onClick={checkEamil}>
 						중복확인
 					</button>
 				</div>
-				<input className="signup-submit" type="button" disabled={!isValid()} onClick={submit} value="회원가입" />
+				<input
+					className="signup-submit"
+					type="button"
+					disabled={!isValid()}
+					onClick={submit}
+					value="회원가입"
+				/>
 			</div>
 		</form>
 	);

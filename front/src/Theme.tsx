@@ -9,7 +9,11 @@ interface IProps {
 const Theme = ({ children }: IProps) => {
 	const { theme } = useRecoilValue(userAtom);
 
-	return <main className={theme === 'light' ? 'theme-container' : 'theme-container dark-theme'}>{children}</main>;
+	return (
+		<main className={theme === 'light' ? 'theme-container' : 'theme-container dark-theme'}>
+			{children}
+		</main>
+	);
 };
 
 export default Theme;

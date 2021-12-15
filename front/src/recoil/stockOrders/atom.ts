@@ -3,12 +3,12 @@ import { IAskOrderItem, IBidOrderItem } from '@src/types';
 
 const askOrdersAtom = atom<IAskOrderItem[]>({
 	key: 'askOrdersAtom',
-	default: [],
+	default: []
 });
 
 const bidOrdersAtom = atom<IBidOrderItem[]>({
 	key: 'bidOrdersAtom',
-	default: [],
+	default: []
 });
 
 export { askOrdersAtom, bidOrdersAtom };

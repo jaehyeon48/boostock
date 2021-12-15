@@ -34,7 +34,7 @@ const Trade = () => {
 	const setBidOrders = useSetRecoilState(bidOrdersAtom);
 	const location = useLocation();
 	const queryData = QueryString.parse(location.search, {
-		ignoreQueryPrefix: true,
+		ignoreQueryPrefix: true
 	});
 	const webSocket = useRecoilValue<WebSocket | null>(websocketAtom);
 	const stockState = getStockState(stockList, queryData);
@@ -45,13 +45,15 @@ const Trade = () => {
 		if (!stockId) return;
 		(async () => {
 			try {
-				const bidAskOrdersRes = await fetch(`${process.env.SERVER_URL}/api/stock/bid-ask?stockId=${stockId}`);
+				const bidAskOrdersRes = await fetch(
+					`${process.env.SERVER_URL}/api/stock/bid-ask?stockId=${stockId}`
+				);
 				if (!bidAskOrdersRes.ok) throw new Error('서버 에러');
 				const bidAskOrdersData: IOrderApiRes = await bidAskOrdersRes.json();
 				const { askOrders, bidOrders } = bidAskOrdersData;
 
-				setAskOrders(askOrders.map((askOrder) => ({ ...askOrder, amount: Number(askOrder.amount) })));
-				setBidOrders(bidOrders.map((bidOrder) => ({ ...bidOrder, amount: Number(bidOrder.amount) })));
+				setAskOrders(askOrders.map(askOrder => ({ ...askOrder, amount: Number(askOrder.amount) })));
+				setBidOrders(bidOrders.map(bidOrder => ({ ...bidOrder, amount: Number(bidOrder.amount) })));
 			} catch (error) {
 				// error handling logic goes here
 			}
@@ -63,7 +65,7 @@ const Trade = () => {
 			if (!stockCode || webSocket?.readyState !== 1) return;
 			const openData: IConnection = {
 				type: 'open',
-				stockCode,
+				stockCode
 			};
 			webSocket.send(translateRequestData(openData));
 			clearInterval(connection);

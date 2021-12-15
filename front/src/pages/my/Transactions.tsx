@@ -27,37 +27,49 @@ const refresh = (
 	stockList: IStockListItem[],
 	transactions: ITransaction[],
 	setTransactions: React.Dispatch<React.SetStateAction<ITransaction[]>>,
-	setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+	setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
 	setLoading(true);
 
 	const currentTime = Date.now();
 	const beforeTime = currentTime - ONE_MONTH_IN_MILLISECONDS;
 	const lastTime = transactions[transactions.length - 1]?.transactionTime || currentTime;
-	fetch(`${process.env.SERVER_URL}/api/user/transaction?start=${beforeTime}&end=${Math.min(lastTime, currentTime)}`, {
-		method: 'GET',
-		credentials: 'include',
-		headers: {
-			'Content-Type': 'application/json; charset=utf-8',
-		},
-	}).then((res: Response) => {
+	fetch(
+		`${process.env.SERVER_URL}/api/user/transaction?start=${beforeTime}&end=${Math.min(
+			lastTime,
+			currentTime
+		)}`,
+		{
+			method: 'GET',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8'
+			}
+		}
+	).then((res: Response) => {
 		if (res.ok) {
-			res.json().then((data) => {
-				setTransactions((prev) => [
+			res.json().then(data => {
+				setTransactions(prev => [
 					...prev,
 					...data.log.map(
-						(log: { type: number; amount: number; createdAt: number; price: number; stockCode: string }) => {
+						(log: {
+							type: number;
+							amount: number;
+							createdAt: number;
+							price: number;
+							stockCode: string;
+						}) => {
 							return {
 								transactionTime: log.createdAt,
 								orderType: log.type,
 								stockCode: log.stockCode,
-								stockName: stockList.find((stock) => stock.code === log.stockCode)?.nameKorean,
+								stockName: stockList.find(stock => stock.code === log.stockCode)?.nameKorean,
 								price: log.price,
 								amount: log.amount,
-								volume: log.price * log.amount,
+								volume: log.price * log.amount
 							};
-						},
-					),
+						}
+					)
 				]);
 
 				if (data.log.length > 0) setLoading(false);
@@ -90,7 +102,9 @@ const getTransaction = (transaction: ITransaction) => {
 const Transactions = () => {
 	const stockList = useRecoilValue<IStockListItem[]>(stockListAtom);
 	const [transactions, setTransactions] = useState<ITransaction[]>([]);
-	const [rootRef, targetRef, loading] = useInfinityScroll(refresh.bind(undefined, stockList, transactions, setTransactions));
+	const [rootRef, targetRef, loading] = useInfinityScroll(
+		refresh.bind(undefined, stockList, transactions, setTransactions)
+	);
 
 	return (
 		<table className="my-transactions">

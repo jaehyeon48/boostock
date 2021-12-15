@@ -20,9 +20,12 @@ const orderTypes = ['매수', '매도'];
 const BidAskType = ({ bidAskType, handleSetBidAskType }: IProps) => {
 	return (
 		<ul className="bidask-type-select-list">
-			{orderTypes.map((type) => (
+			{orderTypes.map(type => (
 				<li key={type} className={`${orderTypeClass(type, bidAskType)}`}>
-					<button className="bidask-type-select-list-btn" type="button" onClick={() => handleSetBidAskType(type)}>
+					<button
+						className="bidask-type-select-list-btn"
+						type="button"
+						onClick={() => handleSetBidAskType(type)}>
 						{type}
 					</button>
 				</li>

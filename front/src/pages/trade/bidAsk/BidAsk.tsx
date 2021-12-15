@@ -29,7 +29,11 @@ const BidAsk = ({ stockCode }: { stockCode: string }) => {
 
 	const handleSetBidAskType = (newType: string) => setBidAskType(newType);
 
-	const setUserAvailableAmount = async (code: string, isSignedIn: boolean, askAvailable: number | null = null) => {
+	const setUserAvailableAmount = async (
+		code: string,
+		isSignedIn: boolean,
+		askAvailable: number | null = null
+	) => {
 		setBidAvailable(await getUserBidAvailable(isSignedIn));
 		if (askAvailable) {
 			setAskAvailable(askAvailable);
@@ -55,16 +59,16 @@ const BidAsk = ({ stockCode }: { stockCode: string }) => {
 			type: bidAskType === '매도' ? 1 : 2,
 			option: 1,
 			amount: bidAskAmount,
-			price: bidAskPrice,
+			price: bidAskPrice
 		};
 
 		const config: RequestInit = {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(orderData),
+			body: JSON.stringify(orderData)
 		};
 
 		try {
@@ -84,22 +88,22 @@ const BidAsk = ({ stockCode }: { stockCode: string }) => {
 				TOAST.error('주문 접수에 실패했습니다. 호가 단위를 확인해주세요.', {
 					style: {
 						textAlign: 'center',
-						maxWidth: '220px',
-					},
+						maxWidth: '220px'
+					}
 				});
 			} else if (error.message === 'Not Enough Balance') {
 				TOAST.error('주문 접수에 실패했습니다. 잔액이 부족합니다.', {
 					style: {
 						textAlign: 'center',
-						maxWidth: '220px',
-					},
+						maxWidth: '220px'
+					}
 				});
 			} else {
 				TOAST.error('주문 접수에 실패했습니다. 다시 시도해 주세요.', {
 					style: {
 						textAlign: 'center',
-						maxWidth: '236px',
-					},
+						maxWidth: '236px'
+					}
 				});
 			}
 		}

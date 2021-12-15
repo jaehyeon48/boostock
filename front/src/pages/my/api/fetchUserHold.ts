@@ -6,8 +6,8 @@ export default async function fetchUserHold(): Promise<Array<IHoldStockItem>> {
 			method: 'GET',
 			credentials: 'include',
 			headers: {
-				'Content-Type': 'application/json; charset=utf-8',
-			},
+				'Content-Type': 'application/json; charset=utf-8'
+			}
 		});
 
 		if (res.status >= 400) throw new Error();

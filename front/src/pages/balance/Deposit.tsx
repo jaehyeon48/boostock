@@ -14,7 +14,8 @@ const Deposit = (props: DepositProps) => {
 	const [balance, setBalance] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const isValid = () => bank.length > 0 && account.length > 0 && balance.length > 0 && loading === false;
+	const isValid = () =>
+		bank.length > 0 && account.length > 0 && balance.length > 0 && loading === false;
 
 	const changeBank = (ev: ChangeEvent<HTMLInputElement>) => {
 		setBank(ev.target.value);
@@ -39,7 +40,11 @@ const Deposit = (props: DepositProps) => {
 			setLoading(true);
 
 			try {
-				const depositRes = await deposit({ bank, bankAccount: account, changeValue: Number(balance.replace(/,/g, '')) });
+				const depositRes = await deposit({
+					bank,
+					bankAccount: account,
+					changeValue: Number(balance.replace(/,/g, ''))
+				});
 				if (!depositRes) throw new Error();
 
 				TOAST.success('입금 신청이 완료되었습니다.');
@@ -99,9 +104,16 @@ const Deposit = (props: DepositProps) => {
 				/>
 			</label>
 			<div className="balance__box balance__box--fill">
-				은행명, 계좌번호, 입금금액이 일치하는 입금 정보가 확인되면, 관리자 승인 후에 예치금이 입금됩니다.
+				은행명, 계좌번호, 입금금액이 일치하는 입금 정보가 확인되면, 관리자 승인 후에 예치금이
+				입금됩니다.
 			</div>
-			<input type="button" className="balance__button" disabled={!isValid()} value="신청" onClick={submit} />
+			<input
+				type="button"
+				className="balance__button"
+				disabled={!isValid()}
+				value="신청"
+				onClick={submit}
+			/>
 		</div>
 	);
 };

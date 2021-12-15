@@ -14,7 +14,7 @@ import './Balance.scss';
 
 enum TAB {
 	DEPOSIT = '입금',
-	WITHDRAWAL = '출금',
+	WITHDRAWAL = '출금'
 }
 
 type TBalanceType = 'DEPOSIT' | 'WITHDRAWAL';
@@ -25,7 +25,12 @@ const translateBalanceTypeToKor = (type: TBalanceType) => {
 };
 
 const translateStatusTypeToKor = (type: TStatusType) => {
-	const converter = { PENDING: '대기중', PROCEEDING: '처리중', FINISHED: '완료', CANCELED: '취소됨' };
+	const converter = {
+		PENDING: '대기중',
+		PROCEEDING: '처리중',
+		FINISHED: '완료',
+		CANCELED: '취소됨'
+	};
 
 	return converter[type] ?? '처리중';
 };
@@ -45,8 +50,12 @@ const Balance = () => {
 				<td>{history.bank}</td>
 				<td>{history.bankAccount}</td>
 				<td className="my__item-number">{history.volume.toLocaleString()}</td>
-				<td className="my__item-number">{translateStatusTypeToKor(StatusType[history.status] as TStatusType)}</td>
-				<td className="my__item-number">{toDateString(history.createdAt + NINE_HOURS_IN_MILLISECONDS)}</td>
+				<td className="my__item-number">
+					{translateStatusTypeToKor(StatusType[history.status] as TStatusType)}
+				</td>
+				<td className="my__item-number">
+					{toDateString(history.createdAt + NINE_HOURS_IN_MILLISECONDS)}
+				</td>
 			</tr>
 		);
 	};
@@ -95,8 +104,7 @@ const Balance = () => {
 							role="button"
 							tabIndex={0}
 							onClick={() => switchTab(index)}
-							onKeyDown={() => switchTab(index)}
-						>
+							onKeyDown={() => switchTab(index)}>
 							{Object.values(TAB)[index]}
 						</div>
 					))}

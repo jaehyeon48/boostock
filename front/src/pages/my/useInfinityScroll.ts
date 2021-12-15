@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 
 const onScroll = (refresh: () => void, entries: IntersectionObserverEntry[]) => {
-	entries.forEach((entry) => {
+	entries.forEach(entry => {
 		if (entry.isIntersecting) {
 			refresh();
 		}
 	});
 };
 
-export default function useInfinityScroll(callback: (setLoading: React.Dispatch<React.SetStateAction<boolean>>) => void) {
+export default function useInfinityScroll(
+	callback: (setLoading: React.Dispatch<React.SetStateAction<boolean>>) => void
+) {
 	const rootRef = useRef<HTMLElement>(null);
 	const targetRef = useRef<HTMLElement>(null);
 	const [loading, setLoading] = useState<boolean>(false);

@@ -19,7 +19,10 @@ function getPriceColorClass(price: number, currentPrice: number): string {
 	return 'neutral';
 }
 
-function calculateTotalAndMaxAmount(askOrders: IAskOrderItem[], bidOrders: IBidOrderItem[]): ITotalAndMaxAmount {
+function calculateTotalAndMaxAmount(
+	askOrders: IAskOrderItem[],
+	bidOrders: IBidOrderItem[]
+): ITotalAndMaxAmount {
 	const totalAskAmount = askOrders.reduce((acc, { amount }) => acc + amount, 0);
 	const totalBidAmount = bidOrders.reduce((acc, { amount }) => acc + amount, 0);
 	const maxAmount = Math.max(...[...askOrders, ...bidOrders].map(({ amount }) => amount));
@@ -42,7 +45,9 @@ const Order = ({ previousClose }: IProps) => {
 	const bidOrders = useRecoilValue<IBidOrderItem[]>(bidOrdersAtom);
 
 	const setBidAskPrice = useSetRecoilState(bidAskPriceAtom);
-	const [totalAndMaxAmount, setTotalAndMaxVolumes] = useState(() => calculateTotalAndMaxAmount(askOrders, bidOrders));
+	const [totalAndMaxAmount, setTotalAndMaxVolumes] = useState(() =>
+		calculateTotalAndMaxAmount(askOrders, bidOrders)
+	);
 
 	useEffect(() => {
 		setTotalAndMaxVolumes(calculateTotalAndMaxAmount(askOrders, bidOrders));
@@ -83,7 +88,7 @@ const Order = ({ previousClose }: IProps) => {
 			<div className="order-content" ref={orderContentRef}>
 				<table className="order-table">
 					<tbody>
-						{askOrders.map((askOrder) => (
+						{askOrders.map(askOrder => (
 							<AskOrderItem
 								key={askOrder.price}
 								askOrder={askOrder}
@@ -94,7 +99,7 @@ const Order = ({ previousClose }: IProps) => {
 								previousClose={previousClose}
 							/>
 						))}
-						{bidOrders.map((bidOrder) => (
+						{bidOrders.map(bidOrder => (
 							<BidOrderItem
 								key={bidOrder.price}
 								bidOrder={bidOrder}
@@ -109,9 +114,13 @@ const Order = ({ previousClose }: IProps) => {
 				</table>
 			</div>
 			<div className="total-amount">
-				<div className="total-sell-amount">{formatNumber(totalAndMaxAmount.totalAskAmount)}&nbsp;주</div>
+				<div className="total-sell-amount">
+					{formatNumber(totalAndMaxAmount.totalAskAmount)}&nbsp;주
+				</div>
 				<div className="total-amount-text">총잔량</div>
-				<div className="total-buy-amount">{formatNumber(totalAndMaxAmount.totalBidAmount)}&nbsp;주</div>
+				<div className="total-buy-amount">
+					{formatNumber(totalAndMaxAmount.totalBidAmount)}&nbsp;주
+				</div>
 			</div>
 		</div>
 	);

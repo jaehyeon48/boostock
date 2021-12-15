@@ -29,9 +29,9 @@ const SignIn = () => {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8',
+				'Content-Type': 'application/json;charset=utf-8'
 			},
-			body: JSON.stringify({ code: query.get('code') }),
+			body: JSON.stringify({ code: query.get('code') })
 		}).then(async (res: Response) => {
 			if (res.ok) {
 				await res.json();
@@ -51,8 +51,7 @@ const SignIn = () => {
 			<h1 className="sign-page-header">{TEXT}</h1>
 			<a
 				className="signin-button github-type"
-				href={`https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT}&redirect_uri=${window.location.href}/callback`}
-			>
+				href={`https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT}&redirect_uri=${window.location.href}/callback`}>
 				Github로 {TEXT}
 			</a>
 			<div className="signin-hr">

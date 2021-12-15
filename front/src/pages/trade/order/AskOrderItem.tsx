@@ -18,18 +18,20 @@ const AskOrderItem = ({
 	previousClose,
 	volumeWidth,
 	setBidAskPrice,
-	getPriceColorClass,
+	getPriceColorClass
 }: IProps) => {
 	return (
 		<tr>
 			<td className="order-row-amount sell-amount active">
-				<button type="button" className="amount-button" onClick={() => setBidAskPrice(askOrder.price)}>
+				<button
+					type="button"
+					className="amount-button"
+					onClick={() => setBidAskPrice(askOrder.price)}>
 					<div
 						style={{
-							width: volumeWidth(askOrder.amount, totalAndMaxAmount.maxAmount),
+							width: volumeWidth(askOrder.amount, totalAndMaxAmount.maxAmount)
 						}}
-						className="amount-bar sell-amount-bar"
-					>
+						className="amount-bar sell-amount-bar">
 						&nbsp;
 					</div>
 					<p className="amount-text sell">{formatNumber(askOrder.amount)}</p>
@@ -38,9 +40,11 @@ const AskOrderItem = ({
 			<td className="order-row-price">
 				<button
 					type="button"
-					className={`order-row-price-data order-sell ${getPriceColorClass(askOrder.price, previousClose)}`}
-					onClick={() => setBidAskPrice(askOrder.price)}
-				>
+					className={`order-row-price-data order-sell ${getPriceColorClass(
+						askOrder.price,
+						previousClose
+					)}`}
+					onClick={() => setBidAskPrice(askOrder.price)}>
 					{formatNumber(askOrder.price)}
 				</button>
 			</td>

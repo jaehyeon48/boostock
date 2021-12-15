@@ -64,7 +64,9 @@ const SideBar = () => {
 						key={key}
 						setMenu={setMenu}
 						index={index}
-						className={`sidebar__menu-item ${menu === MENU[key as keyof typeof MENU] ? 'selected' : ''}`}
+						className={`sidebar__menu-item ${
+							menu === MENU[key as keyof typeof MENU] ? 'selected' : ''
+						}`}
 					/>
 				))}
 			</div>
@@ -85,7 +87,7 @@ const SideBar = () => {
 							(stock: IStockListItem) =>
 								regex.test(stock.code.toLowerCase()) ||
 								regex.test(stock.nameKorean) ||
-								regex.test(stock.nameEnglish.toLowerCase()),
+								regex.test(stock.nameEnglish.toLowerCase())
 						)
 						.map((stock: IStockListItem) => (
 							<SideBarItem

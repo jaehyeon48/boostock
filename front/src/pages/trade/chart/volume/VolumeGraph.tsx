@@ -2,7 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { IChartItem, Theme, IUser } from '@src/types';
 import { userAtom } from '@recoil';
-import { CANDLE_GAP, IGraphComponentProps, getPriceColor, getMaxValue, getMinValue } from '../common';
+import {
+	CANDLE_GAP,
+	IGraphComponentProps,
+	getPriceColor,
+	getMaxValue,
+	getMinValue
+} from '../common';
 import VolumeBackground from './VolumeBackground';
 import VolumeLegend from './VolumeLegend';
 
@@ -33,7 +39,13 @@ const drawVolumeBar = ({ ctx, index, y, h, color, candleWidth }: IDrawVolumeBarP
 	ctx.fillRect(x, y, w, h);
 };
 
-const drawVolumeGraph = ({ ctx, chartData, theme, candleWidth, convertToYPosition }: IDrawVolumeGraphArgs): void => {
+const drawVolumeGraph = ({
+	ctx,
+	chartData,
+	theme,
+	candleWidth,
+	convertToYPosition
+}: IDrawVolumeGraphArgs): void => {
 	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	const numOfCandles = chartData.length;
 	chartData.forEach(({ amount, priceStart, priceEnd }, index) => {
@@ -50,7 +62,7 @@ const drawVolumeGraph = ({ ctx, chartData, theme, candleWidth, convertToYPositio
 			y: convertToYPosition(amount),
 			h: CANVAS_HEIGHT - convertToYPosition(amount),
 			color,
-			candleWidth,
+			candleWidth
 		});
 	});
 };
@@ -75,7 +87,7 @@ const VolumeGraph = ({ chartData, crossLine, getYPosition }: IGraphComponentProp
 			chartData,
 			candleWidth,
 			theme,
-			convertToYPosition,
+			convertToYPosition
 		});
 	}, [volumeGraphRef, chartData, theme]);
 

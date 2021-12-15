@@ -18,7 +18,7 @@ const BidOrderItem = ({
 	previousClose,
 	volumeWidth,
 	setBidAskPrice,
-	getPriceColorClass,
+	getPriceColorClass
 }: IProps) => {
 	return (
 		<tr>
@@ -26,20 +26,24 @@ const BidOrderItem = ({
 			<td className="order-row-price">
 				<button
 					type="button"
-					className={`order-row-price-data order-buy ${getPriceColorClass(bidOrder.price, previousClose)}`}
-					onClick={() => setBidAskPrice(bidOrder.price)}
-				>
+					className={`order-row-price-data order-buy ${getPriceColorClass(
+						bidOrder.price,
+						previousClose
+					)}`}
+					onClick={() => setBidAskPrice(bidOrder.price)}>
 					{formatNumber(bidOrder.price)}
 				</button>
 			</td>
 			<td className="order-row-amount buy-amount active">
-				<button type="button" className="amount-button" onClick={() => setBidAskPrice(bidOrder.price)}>
+				<button
+					type="button"
+					className="amount-button"
+					onClick={() => setBidAskPrice(bidOrder.price)}>
 					<div
 						style={{
-							width: volumeWidth(bidOrder.amount, totalAndMaxAmount.maxAmount),
+							width: volumeWidth(bidOrder.amount, totalAndMaxAmount.maxAmount)
 						}}
-						className="amount-bar buy-amount-bar"
-					>
+						className="amount-bar buy-amount-bar">
 						&nbsp;
 					</div>
 					<p className="amount-text buy">{formatNumber(bidOrder.amount)}</p>

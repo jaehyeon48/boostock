@@ -7,8 +7,8 @@ const userAtom = atom<IUser>({
 		username: '',
 		email: '',
 		isLoggedIn: false,
-		theme: 'light',
-	},
+		theme: 'light'
+	}
 });
 
 export default userAtom;

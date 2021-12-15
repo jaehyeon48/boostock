@@ -21,22 +21,24 @@ const ToggleFavorite = ({ isFavorite, isLoggedIn, stockCode, nameKorean, onRefre
 			method: isFavorite ? 'DELETE' : 'POST',
 			credentials: 'include',
 			headers: {
-				'Content-Type': 'application/json;charset=utf-8',
+				'Content-Type': 'application/json;charset=utf-8'
 			},
-			body: JSON.stringify({ stockCode }),
+			body: JSON.stringify({ stockCode })
 		};
 
 		try {
 			const res = await fetch(`${process.env.SERVER_URL}/api/user/favorite`, config);
 			if (!res.ok) throw new Error();
 
-			const toastMessage = isFavorite ? ` 종목이 관심 종목에서 제거되었습니다.` : ` 종목이 관심 종목으로 등록되었습니다.`;
+			const toastMessage = isFavorite
+				? ` 종목이 관심 종목에서 제거되었습니다.`
+				: ` 종목이 관심 종목으로 등록되었습니다.`;
 
 			TOAST.success(
 				<span>
 					<b>{nameKorean}</b>
 					{toastMessage}
-				</span>,
+				</span>
 			);
 			onRefresh(isLoggedIn);
 		} catch (error) {

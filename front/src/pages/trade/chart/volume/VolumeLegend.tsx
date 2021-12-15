@@ -10,7 +10,7 @@ import {
 	getBorderColor,
 	getMaxValue,
 	getMinValue,
-	getText,
+	getText
 } from '../common';
 
 const CANVAS_WIDTH = 950;
@@ -32,7 +32,13 @@ interface IDrawHoverVolumeLegendArgs {
 	theme: Theme;
 }
 
-const drawHoverVolumeLegend = ({ crossLine, ctx, minAmount, maxAmount, theme }: IDrawHoverVolumeLegendArgs) => {
+const drawHoverVolumeLegend = ({
+	crossLine,
+	ctx,
+	minAmount,
+	maxAmount,
+	theme
+}: IDrawHoverVolumeLegendArgs) => {
 	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	if (!crossLine.event || crossLine.event.target !== ctx.canvas) return;
 	if (!Number.isFinite(minAmount)) return;
@@ -72,12 +78,17 @@ const VolumeLegend = ({ chartData, crossLine }: IProps) => {
 			crossLine,
 			maxAmount,
 			minAmount,
-			theme,
+			theme
 		});
 	}, [volumeLegendRef, crossLine, chartData, theme]);
 
 	return (
-		<canvas className="chart-canvas chart-volume-legend" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} ref={volumeLegendRef} />
+		<canvas
+			className="chart-canvas chart-volume-legend"
+			width={CANVAS_WIDTH}
+			height={CANVAS_HEIGHT}
+			ref={volumeLegendRef}
+		/>
 	);
 };
 

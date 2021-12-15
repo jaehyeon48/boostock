@@ -15,7 +15,8 @@ const Withdrawal = (props: WithdrawalProps) => {
 	const [balance, setBalance] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const isValid = () => bank.length > 0 && account.length > 0 && balance.length > 0 && loading === false;
+	const isValid = () =>
+		bank.length > 0 && account.length > 0 && balance.length > 0 && loading === false;
 
 	const changeBank = (ev: ChangeEvent<HTMLInputElement>) => {
 		setBank(ev.target.value);
@@ -43,7 +44,7 @@ const Withdrawal = (props: WithdrawalProps) => {
 				const withdrawRes = await withdraw({
 					bank,
 					bankAccount: account,
-					changeValue: Number(balance.replace(/,/g, '')),
+					changeValue: Number(balance.replace(/,/g, ''))
 				});
 				if (!withdrawRes) throw new Error();
 
@@ -102,8 +103,16 @@ const Withdrawal = (props: WithdrawalProps) => {
 					onChange={changeBalance}
 				/>
 			</label>
-			<div className="balance__box balance__box--fill">관리자 승인 후에 입력한 계좌 정보로 예치금이 출금됩니다.</div>
-			<input type="button" className="balance__button" disabled={!isValid()} value="신청" onClick={submit} />
+			<div className="balance__box balance__box--fill">
+				관리자 승인 후에 입력한 계좌 정보로 예치금이 출금됩니다.
+			</div>
+			<input
+				type="button"
+				className="balance__button"
+				disabled={!isValid()}
+				value="신청"
+				onClick={submit}
+			/>
 		</div>
 	);
 };

@@ -10,8 +10,8 @@ export default async function deposit(postData: IDepositData): Promise<boolean> 
 	const optionalConfig: RequestInit = {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json;charset=utf-8',
-		},
+			'Content-Type': 'application/json;charset=utf-8'
+		}
 	};
 	const headers = generateConfig(optionalConfig, postData);
 	const URL = generateURL('user/balance/deposit');

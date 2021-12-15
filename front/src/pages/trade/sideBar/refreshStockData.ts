@@ -3,8 +3,8 @@ export const getFavoriteStocks = async () => {
 		method: 'GET',
 		credentials: 'include',
 		headers: {
-			'Content-Type': 'application/json; charset=utf-8',
-		},
+			'Content-Type': 'application/json; charset=utf-8'
+		}
 	});
 	if (res.ok) {
 		const { favorite } = await res.json();
@@ -17,8 +17,8 @@ export const getHoldStocks = async () => {
 		method: 'GET',
 		credentials: 'include',
 		headers: {
-			'Content-Type': 'application/json; charset=utf-8',
-		},
+			'Content-Type': 'application/json; charset=utf-8'
+		}
 	});
 	if (res.ok) {
 		const { holdStocks } = await res.json();

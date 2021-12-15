@@ -3,7 +3,13 @@ import { useRecoilValue } from 'recoil';
 import { IChartItem, Theme, IUser } from '@src/types';
 import { userAtom } from '@recoil';
 
-import { IGraphComponentProps, CANDLE_GAP, getMaxValue, getMinValue, getPriceColor } from '../common';
+import {
+	IGraphComponentProps,
+	CANDLE_GAP,
+	getMaxValue,
+	getMinValue,
+	getPriceColor
+} from '../common';
 import CandleBackground from './CandleBackground';
 import CandleLegend from './CandleLegend';
 
@@ -33,9 +39,11 @@ const isDodgeCandle = (priceStart: number, priceEnd: number) => priceStart === p
 
 const isPositiveCandle = (priceStart: number, priceEnd: number) => priceStart < priceEnd;
 
-const drawCandleBar = ({ ctx, x, y, width, height }: ICandleDrawData) => ctx.fillRect(x, y, width, height);
+const drawCandleBar = ({ ctx, x, y, width, height }: ICandleDrawData) =>
+	ctx.fillRect(x, y, width, height);
 
-const drawCandleTail = ({ ctx, x, y, width, height }: ICandleDrawData) => ctx.fillRect(x, y, width, height);
+const drawCandleTail = ({ ctx, x, y, width, height }: ICandleDrawData) =>
+	ctx.fillRect(x, y, width, height);
 
 const drawCandles = ({
 	chartData,
@@ -45,14 +53,16 @@ const drawCandles = ({
 	candleGap,
 	tailWidth,
 	theme,
-	convertToYPosition,
+	convertToYPosition
 }: IDrawData) => {
 	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	chartData.forEach(({ priceHigh, priceLow, priceStart, priceEnd }, idx) => {
 		const isPositive = isPositiveCandle(priceStart, priceEnd);
 		const candleBarX = Math.floor(canvasWidth - (candleWidth + candleGap) * (idx + 1));
 		const candleBarY = Math.floor(convertToYPosition(isPositive ? priceEnd : priceStart));
-		const candleHeight = Math.floor(Math.abs(convertToYPosition(priceStart) - convertToYPosition(priceEnd)));
+		const candleHeight = Math.floor(
+			Math.abs(convertToYPosition(priceStart) - convertToYPosition(priceEnd))
+		);
 
 		const tailX = Math.floor(candleBarX + (candleWidth - tailWidth) / 2);
 		const tailY = Math.floor(convertToYPosition(priceHigh));
@@ -60,13 +70,19 @@ const drawCandles = ({
 
 		if (isDodgeCandle(priceStart, priceEnd)) {
 			ctx.fillStyle = getPriceColor(priceStart, priceEnd, theme);
-			drawCandleBar({ ctx, x: candleBarX, y: candleBarY, width: candleWidth, height: candleHeight + 1 });
+			drawCandleBar({
+				ctx,
+				x: candleBarX,
+				y: candleBarY,
+				width: candleWidth,
+				height: candleHeight + 1
+			});
 			drawCandleTail({
 				ctx,
 				x: tailX,
 				y: tailY,
 				width: tailWidth,
-				height: tailHeight,
+				height: tailHeight
 			});
 			return;
 		}
@@ -80,7 +96,7 @@ const drawCandles = ({
 			x: tailX,
 			y: tailY,
 			width: tailWidth,
-			height: tailHeight,
+			height: tailHeight
 		});
 	});
 };
@@ -111,7 +127,7 @@ const CandleGraph = ({ chartData, crossLine, getYPosition }: IGraphComponentProp
 			candleGap: CANDLE_GAP,
 			tailWidth: TAIL_WIDTH,
 			theme,
-			convertToYPosition,
+			convertToYPosition
 		});
 	}, [chartData, candleGraphChartRef, theme]);
 

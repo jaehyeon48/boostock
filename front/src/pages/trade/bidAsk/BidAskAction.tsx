@@ -35,10 +35,16 @@ const BidAskAction = ({ bidAskType, isAmountError, handleReset, handleBidAsk }: 
 
 	const guestContent = (
 		<>
-			<button type="button" className="bidask-reset-btn signup-action" onClick={handleRedirectToSignUpPage}>
+			<button
+				type="button"
+				className="bidask-reset-btn signup-action"
+				onClick={handleRedirectToSignUpPage}>
 				회원가입
 			</button>
-			<button type="button" className="bidask-action-btn signin-action" onClick={handleRedirectToSignInPage}>
+			<button
+				type="button"
+				className="bidask-action-btn signin-action"
+				onClick={handleRedirectToSignInPage}>
 				로그인
 			</button>
 		</>
@@ -52,7 +58,11 @@ const BidAskAction = ({ bidAskType, isAmountError, handleReset, handleBidAsk }: 
 				</span>
 				초기화
 			</button>
-			<button className={orderActionClass(bidAskType)} type="button" onClick={handleBidAsk} disabled={isAmountError}>
+			<button
+				className={orderActionClass(bidAskType)}
+				type="button"
+				onClick={handleBidAsk}
+				disabled={isAmountError}>
 				{bidAskType}
 			</button>
 		</>

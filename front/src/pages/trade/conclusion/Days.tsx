@@ -27,12 +27,18 @@ const getPriceRate = (prev: number, current: number): string => {
 	return `${rate.toFixed(1)}%`;
 };
 
-const fetchDailyLog = async (stockCode: string, setDailyLog: SetterOrUpdater<IDailyLog[]>): Promise<void> => {
+const fetchDailyLog = async (
+	stockCode: string,
+	setDailyLog: SetterOrUpdater<IDailyLog[]>
+): Promise<void> => {
 	const config: RequestInit = {
 		method: 'GET',
-		credentials: 'include',
+		credentials: 'include'
 	};
-	const res = await fetch(`${process.env.SERVER_URL}/api/stock/log/daily?code=${stockCode}`, config);
+	const res = await fetch(
+		`${process.env.SERVER_URL}/api/stock/log/daily?code=${stockCode}`,
+		config
+	);
 	if (!res.ok) throw new Error('Fetch Failed Daily Log Error');
 
 	const { code, logs } = await res.json();
@@ -67,7 +73,9 @@ const Days = ({ stockCode }: Props) => {
 								<div className="conclusion-timestamp">
 									<span className="timestamp-day">{day}</span>
 								</div>
-								<div className={`conclusion-single-price ${colors}`}>{log.priceEnd.toLocaleString('ko-kr')}</div>
+								<div className={`conclusion-single-price ${colors}`}>
+									{log.priceEnd.toLocaleString('ko-kr')}
+								</div>
 								<div className={`conclusion-volume ${colors}`}>
 									{getPriceRate(dailyLog[index + 1]?.priceEnd, log.priceEnd)}
 								</div>

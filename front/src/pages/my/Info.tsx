@@ -75,7 +75,7 @@ const Info = ({ holds }: IProps) => {
 			totalValuationPrice,
 			totalValuationProfit,
 			totalAssets,
-			totalRate,
+			totalRate
 		});
 	}, [holds, balance]);
 
@@ -104,7 +104,9 @@ const Info = ({ holds }: IProps) => {
 				</div>
 				<div className="my-info__group">
 					<div className="my-info__title--bottom">총평가금액</div>
-					<div className="my-info__data--bottom">₩ {formatInteger(info?.totalValuationPrice ?? 0)}</div>
+					<div className="my-info__data--bottom">
+						₩ {formatInteger(info?.totalValuationPrice ?? 0)}
+					</div>
 				</div>
 				<div className="my-info__group">
 					<div className="my-info__title--bottom ">총평가손익</div>

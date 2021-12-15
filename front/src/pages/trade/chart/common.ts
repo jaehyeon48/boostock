@@ -21,7 +21,11 @@ export interface ICrossLine {
 export interface IGraphComponentProps {
 	chartData: IChartItem[];
 	crossLine: ICrossLine;
-	getYPosition: (maxValue: number, minValue: number, canvasHeight: number) => (value: number) => number;
+	getYPosition: (
+		maxValue: number,
+		minValue: number,
+		canvasHeight: number
+	) => (value: number) => number;
 }
 
 export const getText = (value: number, predicate: (arg: number) => boolean) => {
@@ -33,15 +37,19 @@ export const getMaxValue = (
 	chartData: IChartItem[],
 	validProperty: keyof IChartItem,
 	filterProperty: keyof IChartItem,
-	upperBuffer = 1,
-): number => Math.max(...chartData.filter((data) => data[validProperty] > 0).map((data) => data[filterProperty])) * upperBuffer;
+	upperBuffer = 1
+): number =>
+	Math.max(...chartData.filter(data => data[validProperty] > 0).map(data => data[filterProperty])) *
+	upperBuffer;
 
 export const getMinValue = (
 	chartData: IChartItem[],
 	validProperty: keyof IChartItem,
 	filterProperty: keyof IChartItem,
-	lowerBuffer = 1,
-): number => Math.min(...chartData.filter((data) => data[validProperty] > 0).map((data) => data[filterProperty])) * lowerBuffer;
+	lowerBuffer = 1
+): number =>
+	Math.min(...chartData.filter(data => data[validProperty] > 0).map(data => data[filterProperty])) *
+	lowerBuffer;
 
 export const formatCandleDate = (timestamp: number, chartType: TChartType = 1) => {
 	const date = new Date(timestamp);

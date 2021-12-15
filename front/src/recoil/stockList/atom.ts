@@ -3,7 +3,7 @@ import { IStockListItem } from '@src/types';
 
 const stockListAtom = atom<IStockListItem[]>({
 	key: 'stockListAtom',
-	default: [],
+	default: []
 });
 
 export default stockListAtom;

@@ -43,7 +43,7 @@ const App = () => {
 				...userState,
 				username,
 				email,
-				isLoggedIn: true,
+				isLoggedIn: true
 			});
 			Emitter.emit('REGISTER_ALARM', getCookie('alarm_token'));
 		})();
@@ -91,5 +91,5 @@ ReactDOM.render(
 			<App />
 		</Socket>
 	</RecoilRoot>,
-	document.getElementById('app'),
+	document.getElementById('app')
 );

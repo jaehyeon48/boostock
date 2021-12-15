@@ -6,7 +6,11 @@ import { getBorderColor, getLegendColor, getMaxValue, getMinValue, getText } fro
 
 interface IProps {
 	chartData: IChartItem[];
-	getYPosition: (maxValue: number, minValue: number, canvasHeight: number) => (value: number) => number;
+	getYPosition: (
+		maxValue: number,
+		minValue: number,
+		canvasHeight: number
+	) => (value: number) => number;
 }
 
 interface IDrawVolumeBackgroundArgs {
@@ -22,7 +26,13 @@ const CANVAS_HEIGHT = 72;
 const NUM_OF_PARTITIONS = 4;
 const LEGEND_LEFT = Math.floor(CANVAS_WIDTH - 101);
 
-const drawVolumeLegend = ({ ctx, minAmount, maxAmount, theme, convertToYPosition }: IDrawVolumeBackgroundArgs): void => {
+const drawVolumeLegend = ({
+	ctx,
+	minAmount,
+	maxAmount,
+	theme,
+	convertToYPosition
+}: IDrawVolumeBackgroundArgs): void => {
 	ctx.font = '11px Lato';
 	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -32,7 +42,7 @@ const drawVolumeLegend = ({ ctx, minAmount, maxAmount, theme, convertToYPosition
 	Array(NUM_OF_PARTITIONS)
 		.fill(0)
 		.map((_, i) => i)
-		.forEach((index) => {
+		.forEach(index => {
 			const gapAmount = (maxAmount - minAmount) / (NUM_OF_PARTITIONS - 1);
 			const amountValue = Math.floor(minAmount + gapAmount * index);
 			const text = getText(amountValue, Number.isNaN);
@@ -64,7 +74,7 @@ const VolumeBackground = ({ chartData, getYPosition }: IProps) => {
 			minAmount,
 			maxAmount,
 			theme,
-			convertToYPosition,
+			convertToYPosition
 		});
 	}, [volumeBackgroundRef, chartData, theme]);
 

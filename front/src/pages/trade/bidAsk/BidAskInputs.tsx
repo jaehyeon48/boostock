@@ -29,7 +29,7 @@ const BidAskInputs = ({
 	askAvailable,
 	stockCode,
 	setBidAskPrice,
-	setBidAskAmount,
+	setBidAskAmount
 }: IProps) => {
 	const handleOrderPrice = (e: SyntheticEvent) => {
 		const target = e.target as HTMLInputElement;

@@ -26,7 +26,7 @@ const useChart = ({ stockState, stockCode, chartType }: IProps) => {
 	const [sliceIndex, setSliceIndex] = useState<ISliceIndex>({
 		start: DEFAULT_START_INDEX,
 		end: DEFAULT_END_INDEX,
-		lastIndex: DEFAULT_END_INDEX,
+		lastIndex: DEFAULT_END_INDEX
 	});
 	const { start, end } = sliceIndex;
 	const chartToRender = chart.slice(start, end);
@@ -39,14 +39,14 @@ const useChart = ({ stockState, stockCode, chartType }: IProps) => {
 				priceEnd: 0,
 				priceLow: 0,
 				priceHigh: 0,
-				amount: 0,
-			},
+				amount: 0
+			}
 		]);
 	};
 
 	const updateChartData = async (stockCode: string, chartType: TChartType, endDate?: number) => {
 		const newChartData = await fetchChartData(stockCode, chartType, endDate);
-		setChart((prev) => [...prev, ...newChartData]);
+		setChart(prev => [...prev, ...newChartData]);
 	};
 
 	const updateRealtimeCandle = (charts: IStockChartItem[], chartType: TChartType) => {
@@ -59,14 +59,14 @@ const useChart = ({ stockState, stockCode, chartType }: IProps) => {
 			priceEnd: targetChart.priceEnd,
 			priceLow: targetChart.priceLow,
 			priceHigh: targetChart.priceHigh,
-			amount: targetChart.amount,
+			amount: targetChart.amount
 		};
 
-		setChart((prev) => [newChart, ...prev.slice(1, prev.length)]);
+		setChart(prev => [newChart, ...prev.slice(1, prev.length)]);
 	};
 
 	const setSliceIndexAfterZoom = (candlesToSlide: number) => {
-		setSliceIndex((prev) => {
+		setSliceIndex(prev => {
 			const { start, end, lastIndex } = prev;
 			let newEnd = end + candlesToSlide;
 			if (newEnd - start < MIN_NUM_OF_CANDLES) newEnd = start + MIN_NUM_OF_CANDLES;
@@ -82,10 +82,11 @@ const useChart = ({ stockState, stockCode, chartType }: IProps) => {
 	};
 
 	const setSliceIndexAfterSlide = (moveIndex: number) => {
-		setSliceIndex((prev) => {
+		setSliceIndex(prev => {
 			const { start, end, lastIndex } = prev;
 			const numOfCandles = end - start;
-			const newStart = start + moveIndex >= DEFAULT_START_INDEX ? start + moveIndex : DEFAULT_START_INDEX;
+			const newStart =
+				start + moveIndex >= DEFAULT_START_INDEX ? start + moveIndex : DEFAULT_START_INDEX;
 			const newEnd = newStart + numOfCandles;
 
 			if (newEnd >= lastIndex) {
@@ -96,13 +97,17 @@ const useChart = ({ stockState, stockCode, chartType }: IProps) => {
 			return {
 				start: newStart >= DEFAULT_START_INDEX ? newStart : DEFAULT_START_INDEX,
 				end: newEnd,
-				lastIndex,
+				lastIndex
 			};
 		});
 	};
 
 	useEffect(() => {
-		setSliceIndex({ start: DEFAULT_START_INDEX, end: DEFAULT_END_INDEX, lastIndex: DEFAULT_END_INDEX });
+		setSliceIndex({
+			start: DEFAULT_START_INDEX,
+			end: DEFAULT_END_INDEX,
+			lastIndex: DEFAULT_END_INDEX
+		});
 		resetChart();
 		updateChartData(stockCode, chartType);
 	}, [stockCode, chartType]);
@@ -116,7 +121,7 @@ const useChart = ({ stockState, stockCode, chartType }: IProps) => {
 		chart,
 		chartToRender,
 		setSliceIndexAfterSlide,
-		setSliceIndexAfterZoom,
+		setSliceIndexAfterZoom
 	};
 };
 

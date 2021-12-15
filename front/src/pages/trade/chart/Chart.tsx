@@ -1,7 +1,12 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState, useEffect, useRef } from 'react';
 import { IStockListItem } from '@src/types';
-import { ICrossLine, TChartType, PRICE_CANVAS_TOP_BOT_PADDING, VOLUME_CANVAS_TOP_BOT_PADDING } from './common';
+import {
+	ICrossLine,
+	TChartType,
+	PRICE_CANVAS_TOP_BOT_PADDING,
+	VOLUME_CANVAS_TOP_BOT_PADDING
+} from './common';
 import PeriodBackground from './period/PeriodBackground';
 import CandleGraph from './candle/CandleGraph';
 import VolumeGraph from './volume/VolumeGraph';
@@ -18,11 +23,14 @@ interface IProps {
 const MOVE_INDEX_SLOW_WEIGHT = 8;
 const NUM_OF_CANDLE_UNIT = 7;
 
-const moveCrossLine = (set: React.Dispatch<React.SetStateAction<ICrossLine>>, event: MouseEvent) => {
+const moveCrossLine = (
+	set: React.Dispatch<React.SetStateAction<ICrossLine>>,
+	event: MouseEvent
+) => {
 	set(() => ({
 		event,
 		posX: event.offsetX,
-		posY: event.offsetY,
+		posY: event.offsetY
 	}));
 };
 
@@ -54,7 +62,7 @@ const Chart = ({ stockCode, stockState }: IProps) => {
 	const { chart, chartToRender, setSliceIndexAfterSlide, setSliceIndexAfterZoom } = useChart({
 		stockState,
 		stockCode,
-		chartType,
+		chartType
 	});
 	const [crossLine, setCrossLine] = useState<ICrossLine>({ event: null, posX: 0, posY: 0 });
 
@@ -63,8 +71,11 @@ const Chart = ({ stockCode, stockState }: IProps) => {
 		setChartType(type);
 	};
 
-	const getYPosition = (padding: number) => (maxValue: number, minValue: number, canvasHeight: number) => (value: number) =>
-		padding + ((maxValue - value) / (maxValue - minValue)) * (canvasHeight - padding * 2);
+	const getYPosition =
+		(padding: number) =>
+		(maxValue: number, minValue: number, canvasHeight: number) =>
+		(value: number) =>
+			padding + ((maxValue - value) / (maxValue - minValue)) * (canvasHeight - padding * 2);
 
 	useEffect(() => {
 		const zoomCandleChart = (e: WheelEvent) => {
@@ -98,31 +109,30 @@ const Chart = ({ stockCode, stockState }: IProps) => {
 				className={chartContainerClass(isUserGrabbing)}
 				ref={chartRef}
 				role="main"
-				onMouseDown={(e) => {
+				onMouseDown={e => {
 					if (!isTarget(e.target as HTMLDivElement)) return;
 
 					setIsUserGrabbing(true);
 				}}
-				onMouseUp={(e) => {
+				onMouseUp={e => {
 					if (!isTarget(e.target as HTMLDivElement)) return;
 					setIsUserGrabbing(false);
 				}}
-				onMouseOut={(e) => {
+				onMouseOut={e => {
 					if (!isTarget(e.target as HTMLDivElement)) return;
 					setIsUserGrabbing(false);
 				}}
-				onBlur={(e) => {
+				onBlur={e => {
 					if (!isTarget(e.target as HTMLDivElement)) return;
 					setIsUserGrabbing(false);
 				}}
-				onMouseMove={(e) => {
+				onMouseMove={e => {
 					if (!isTarget(e.target as HTMLDivElement)) return;
 					if (!isUserGrabbing) return;
 
 					const moveIndex = Math.floor(e.movementX / MOVE_INDEX_SLOW_WEIGHT);
 					setSliceIndexAfterSlide(moveIndex);
-				}}
-			>
+				}}>
 				<PeriodBackground chartData={chartToRender} chartType={chartType} />
 				<CandleGraph
 					chartData={chartToRender}
@@ -137,10 +147,16 @@ const Chart = ({ stockCode, stockState }: IProps) => {
 				<PeriodLegend chartData={chartToRender} crossLine={crossLine} />
 			</div>
 			<div className="chart-menu">
-				<button type="button" className={chartTypeMenuClass(1, chartType)} onClick={() => handleSetChartType(1)}>
+				<button
+					type="button"
+					className={chartTypeMenuClass(1, chartType)}
+					onClick={() => handleSetChartType(1)}>
 					1분
 				</button>
-				<button type="button" className={chartTypeMenuClass(1440, chartType)} onClick={() => handleSetChartType(1440)}>
+				<button
+					type="button"
+					className={chartTypeMenuClass(1440, chartType)}
+					onClick={() => handleSetChartType(1440)}>
 					1일
 				</button>
 			</div>

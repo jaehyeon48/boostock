@@ -28,7 +28,8 @@ const Holds = (props: HoldsProps) => {
 				<td className="my__item-number">{formatInteger(hold.totalAskPrice)}</td>
 				<td className={`my__item-number${status}`}>{formatInteger(hold.totalValuationPrice)}</td>
 				<td className={`my__item-number${status}`}>
-					{caretIcon(profitRate)} {profitRate.toLocaleString(undefined, { maximumFractionDigits: 2 })} %
+					{caretIcon(profitRate)}{' '}
+					{profitRate.toLocaleString(undefined, { maximumFractionDigits: 2 })} %
 				</td>
 			</tr>
 		);

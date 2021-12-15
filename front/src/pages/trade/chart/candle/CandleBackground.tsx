@@ -6,7 +6,11 @@ import { getMaxValue, getMinValue, getTextColor, getLegendColor, getText } from 
 
 interface IProps {
 	chartData: IChartItem[];
-	getYPosition: (maxValue: number, minValue: number, canvasHeight: number) => (value: number) => number;
+	getYPosition: (
+		maxValue: number,
+		minValue: number,
+		canvasHeight: number
+	) => (value: number) => number;
 }
 
 interface IDrawCandleBackgroundArgs {
@@ -22,7 +26,13 @@ const CANVAS_HEIGHT = 252;
 const NUM_OF_PARTITIONS = 6;
 const LEGEND_LEFT = Math.floor(CANVAS_WIDTH - 101);
 
-const drawCandleBackground = ({ ctx, maxPrice, minPrice, theme, convertToYPosition }: IDrawCandleBackgroundArgs): void => {
+const drawCandleBackground = ({
+	ctx,
+	maxPrice,
+	minPrice,
+	theme,
+	convertToYPosition
+}: IDrawCandleBackgroundArgs): void => {
 	ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 	ctx.font = '11px Lato';
 	ctx.strokeStyle = getLegendColor(theme);
@@ -31,7 +41,7 @@ const drawCandleBackground = ({ ctx, maxPrice, minPrice, theme, convertToYPositi
 	Array(NUM_OF_PARTITIONS)
 		.fill(0)
 		.map((_, i) => i)
-		.forEach((index) => {
+		.forEach(index => {
 			const gapPrice = (maxPrice - minPrice) / (NUM_OF_PARTITIONS - 1);
 			const priceValue = minPrice + gapPrice * index;
 			const text = getText(priceValue, Number.isNaN);
@@ -62,7 +72,7 @@ const CandleBackground = ({ chartData, getYPosition }: IProps) => {
 			maxPrice,
 			minPrice,
 			theme,
-			convertToYPosition,
+			convertToYPosition
 		});
 	}, [candleBackgroundRef, chartData, theme]);
 
