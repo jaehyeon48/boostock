@@ -83,6 +83,7 @@
 			"@tools(.*)$": "<rootDir>/src/tools$1",
 			"@recoil": "<rootDir>/src/recoil/index.ts",
 			"@lib(.*)$": "<rootDir>/src/lib$1",
+			"@mocks": "<rootDir>/src/mocks/index.ts",
 			"\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
 			"\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
 		}

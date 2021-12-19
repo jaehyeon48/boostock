@@ -20,7 +20,8 @@ export default {
 			'@pages': path.resolve('src', 'pages'),
 			'@tools': path.resolve('src', 'tools'),
 			'@recoil': path.resolve('src', 'recoil', 'index'),
-			'@lib': path.resolve('src', 'lib')
+			'@lib': path.resolve('src', 'lib'),
+			'@mocks': path.resolve('src', 'mocks', 'index')
 		}
 	},
 	module: {
