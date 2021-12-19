@@ -85,13 +85,13 @@ export interface IUserDataResponse {
 }
 
 export interface IAskOrderItem {
-	type: ORDER_TYPE.ASK;
+	type: OrderType.ASK;
 	price: number;
 	amount: number;
 }
 
 export interface IBidOrderItem {
-	type: ORDER_TYPE.BID;
+	type: OrderType.BID;
 	price: number;
 	amount: number;
 }
