@@ -5,6 +5,7 @@
 	"main": "app.js",
 	"type": "module",
 	"scripts": {
+		"test": "jest --env=jsdom",
 		"dev": "webpack serve --open --config ./config/webpack.dev.js",
 		"build": "webpack --config ./config/webpack.prod.js",
 		"format": "prettier --check ./src",
@@ -16,11 +17,16 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@babel/core": "^7.16.0",
+		"@babel/plugin-transform-react-jsx": "^7.16.5",
 		"@babel/plugin-transform-runtime": "^7.16.0",
 		"@babel/preset-env": "^7.16.0",
 		"@babel/preset-react": "^7.16.0",
 		"@babel/preset-typescript": "^7.16.0",
 		"@babel/runtime": "^7.16.0",
+		"@testing-library/jest-dom": "^5.16.1",
+		"@testing-library/react": "^12.1.2",
+		"@testing-library/user-event": "^13.5.0",
+		"@types/jest": "^27.0.3",
 		"@types/qs": "^6.9.7",
 		"@types/react": "^17.0.33",
 		"@types/react-dom": "^17.0.10",
@@ -32,15 +38,18 @@
 		"eslint-config-airbnb-typescript": "^14.0.1",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-import": "^2.25.2",
+		"eslint-plugin-jest": "^25.3.0",
+		"eslint-plugin-jest-dom": "^3.9.2",
 		"eslint-plugin-jsx-a11y": "^6.4.1",
 		"eslint-plugin-prettier": "^4.0.0",
 		"eslint-plugin-react-hooks": "^4.2.1-alpha-5cccacd13-20211101",
+		"eslint-plugin-testing-library": "^5.0.1",
 		"html-webpack-plugin": "^5.5.0",
+		"jest": "^27.4.5",
 		"prettier": "2.4.1",
 		"sass": "^1.43.4",
 		"sass-loader": "^12.3.0",
 		"style-loader": "^3.3.1",
-		"typescript": "^4.4.4",
 		"webpack": "^5.61.0",
 		"webpack-cli": "^4.9.1",
 		"webpack-dev-server": "^4.4.0",
@@ -51,6 +60,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.2.0",
 		"@typescript-eslint/parser": "^5.2.0",
 		"eslint-plugin-react": "^7.26.1",
+		"msw": "^0.36.3",
 		"qs": "^6.7.0",
 		"react": "^17.0.2",
 		"react-cookie": "^4.1.1",
@@ -58,6 +68,23 @@
 		"react-icons": "^4.3.1",
 		"react-router-dom": "^5.3.0",
 		"react-toastify": "^8.1.0",
-		"recoil": "^0.4.1"
+		"recoil": "^0.4.1",
+		"typescript": "^4.5.4"
+	},
+	"jest": {
+		"setupFilesAfterEnv": [
+			"<rootDir>/src/setuptests.ts"
+		],
+		"moduleNameMapper": {
+			"@src(.*)$": "<rootDir>/src$1",
+			"@common(.*)$": "<rootDir>/src/common$1",
+			"@assets(.*)$": "<rootDir>/src/assets$1",
+			"@pages(.*)$": "<rootDir>/src/pages$1",
+			"@tools(.*)$": "<rootDir>/src/tools$1",
+			"@recoil": "<rootDir>/src/recoil/index.ts",
+			"@lib(.*)$": "<rootDir>/src/lib$1",
+			"\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+			"\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
+		}
 	}
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import style from './logo.module.scss';
+import './logo.scss';
 
 const Logo = () => {
-	return <span className={style.logo} />;
+	return <span className="logo" />;
 };
 
 export default Logo;

@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import * as ReactDOM from 'react-dom';
-import { RecoilRoot, useRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Flip, ToastContainer } from '@lib/toastify';
 import { userAtom } from '@recoil';
@@ -15,8 +14,6 @@ import SignUp from './pages/signUp/SignUp';
 import Trade from './pages/trade/Trade';
 import My from './pages/my/My';
 import Balance from './pages/balance/Balance';
-import Socket from './Socket';
-import '@lib/toastify/ReactToastify.min.css';
 
 export interface Ipage {
 	id: number;
@@ -85,11 +82,4 @@ const App = () => {
 	);
 };
 
-ReactDOM.render(
-	<RecoilRoot>
-		<Socket>
-			<App />
-		</Socket>
-	</RecoilRoot>,
-	document.getElementById('app')
-);
+export default App;

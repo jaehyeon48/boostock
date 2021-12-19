@@ -1,7 +1,8 @@
 {
 	"env": {
 		"browser": true,
-		"es2021": true
+		"es2021": true,
+		"jest": true
 	},
 	"extends": [
 		"eslint:recommended",
@@ -10,6 +11,9 @@
 		"airbnb",
 		"airbnb/hooks",
 		"airbnb-typescript",
+		"plugin:jest/recommended",
+		"plugin:jest-dom/recommended",
+		"plugin:testing-library/react",
 		"plugin:prettier/recommended"
 	],
 	"parser": "@typescript-eslint/parser",
@@ -29,10 +33,17 @@
 	"rules": {
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"react/jsx-props-no-spreading": "off",
+		"react/react-in-jsx-scope": "off",
 		"react-hooks/exhaustive-deps": "off",
 		"no-shadow": "off",
 		"@typescript-eslint/no-shadow": "off",
 		"import/prefer-default-export": "off",
-		"no-param-reassign": "off"
+		"no-param-reassign": "off",
+		"import/no-extraneous-dependencies": [
+			"error",
+			{
+				"devDependencies": true
+			}
+		]
 	}
 }
