@@ -3,13 +3,13 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
 	entry: {
-		app: './src/App.tsx',
+		app: './src/index.tsx'
 	},
 	output: {
 		filename: '[name].bundle.js',
 		path: path.resolve('dist'),
 		publicPath: '/',
-		clean: true,
+		clean: true
 	},
 	resolve: {
 		extensions: ['.wasm', '.ts', '.tsx', '.mjs', '.cjs', '.js', '.json'],
@@ -20,22 +20,22 @@ export default {
 			'@pages': path.resolve('src', 'pages'),
 			'@tools': path.resolve('src', 'tools'),
 			'@recoil': path.resolve('src', 'recoil', 'index'),
-			'@lib': path.resolve('src', 'lib'),
-		},
+			'@lib': path.resolve('src', 'lib')
+		}
 	},
 	module: {
 		rules: [
 			{
 				test: /\.(js|jsx|ts|tsx)$/,
 				use: {
-					loader: 'babel-loader',
+					loader: 'babel-loader'
 				},
-				exclude: /node_modules/,
+				exclude: /node_modules/
 			},
 			{
 				test: /\.(scss|css)$/i,
 				use: ['style-loader', 'css-loader', 'sass-loader'],
-				exclude: [/\.module\.css$/i, /node_modules/],
+				exclude: [/\.module\.css$/i, /node_modules/]
 			},
 			{
 				test: /\.module\.css$/i,
@@ -43,27 +43,27 @@ export default {
 					'style-loader',
 					{
 						loader: 'css-loader',
-						options: { modules: true },
+						options: { modules: true }
 					},
-					'sass-loader',
+					'sass-loader'
 				],
-				exclude: /node_modules/,
+				exclude: /node_modules/
 			},
 			{
 				test: /\.(png|svg|jpg|jpeg|gif)$/i,
-				type: 'asset/resource',
+				type: 'asset/resource'
 			},
 			{
 				test: /\.(woff|woff2|eot|ttf|otf)$/i,
-				type: 'asset/resource',
-			},
-		],
+				type: 'asset/resource'
+			}
+		]
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: path.resolve('src/index.html'),
 			filename: path.resolve('dist/index.html'),
-			chunks: ['app'],
-		}),
-	],
+			chunks: ['app']
+		})
+	]
 };
