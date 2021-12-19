@@ -45,7 +45,6 @@ export interface IStockListItem {
 	nameEnglish: string;
 	price: number;
 	previousClose: number;
-	unit: number;
 	charts: IStockChartItem[];
 }
 
