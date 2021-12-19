@@ -7,8 +7,8 @@ import StockService from './StockService';
 const loginUserMap = new Map();
 const socketClientMap = new Map();
 const socketAlarmMap = new Map();
-const translateRequestFormat = (data) => binArrayToJson(data);
-const translateResponseFormat = (type, data) => JsonToBinArray({ type, data });
+const translateRequestFormat = (data) => JSON.parse(data);
+const translateResponseFormat = (type, data) => JSON.stringify({ type, data });
 const getNemClientForm = () => {
 	return { target: '', alarmToken: '' };
 };
