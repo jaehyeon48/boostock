@@ -5,7 +5,7 @@
 	"main": "app.js",
 	"type": "module",
 	"scripts": {
-		"test": "jest --env=jsdom",
+		"test": "jest --env=jsdom --watchAll",
 		"dev": "webpack serve --open --config ./config/webpack.dev.js",
 		"build": "webpack --config ./config/webpack.prod.js",
 		"format": "prettier --check ./src",
