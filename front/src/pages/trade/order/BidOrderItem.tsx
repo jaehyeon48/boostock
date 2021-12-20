@@ -30,7 +30,8 @@ const BidOrderItem = ({
 						bidOrder.price,
 						previousClose
 					)}`}
-					onClick={() => setBidAskPrice(bidOrder.price)}>
+					onClick={() => setBidAskPrice(bidOrder.price)}
+				>
 					{formatNumber(bidOrder.price)}
 				</button>
 			</td>
@@ -38,12 +39,14 @@ const BidOrderItem = ({
 				<button
 					type="button"
 					className="amount-button"
-					onClick={() => setBidAskPrice(bidOrder.price)}>
+					onClick={() => setBidAskPrice(bidOrder.price)}
+				>
 					<div
 						style={{
 							width: volumeWidth(bidOrder.amount, totalAndMaxAmount.maxAmount)
 						}}
-						className="amount-bar buy-amount-bar">
+						className="amount-bar buy-amount-bar"
+					>
 						&nbsp;
 					</div>
 					<p className="amount-text buy">{formatNumber(bidOrder.amount)}</p>

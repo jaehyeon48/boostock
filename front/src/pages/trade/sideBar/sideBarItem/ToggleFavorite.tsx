@@ -47,8 +47,13 @@ const ToggleFavorite = ({ isFavorite, isLoggedIn, stockCode, nameKorean, onRefre
 	};
 
 	return (
-		<button type="button" className="sidebar__item-favorite" onClick={toggleFavorite}>
-			<AiFillStar color={isFavorite ? '#FFA800' : '#999'} />
+		<button
+			type="button"
+			className="sidebar__item-favorite"
+			onClick={toggleFavorite}
+			aria-label="toggle-favorite"
+		>
+			<AiFillStar color={isFavorite ? '#FFA800' : '#999'} aria-label="favorite-icon" />
 		</button>
 	);
 };

@@ -19,7 +19,8 @@ const SideBarMenu: React.FC<Props> = ({ setMenu, index, className }) => {
 			role="button"
 			tabIndex={0}
 			onClick={() => setMenu(Object.values(MENU)[index])}
-			onKeyDown={() => setMenu(Object.values(MENU)[index])}>
+			onKeyDown={() => setMenu(Object.values(MENU)[index])}
+		>
 			{Object.values(MENU)[index]}
 		</div>
 	);

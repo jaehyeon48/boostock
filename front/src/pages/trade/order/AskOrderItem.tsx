@@ -26,12 +26,14 @@ const AskOrderItem = ({
 				<button
 					type="button"
 					className="amount-button"
-					onClick={() => setBidAskPrice(askOrder.price)}>
+					onClick={() => setBidAskPrice(askOrder.price)}
+				>
 					<div
 						style={{
 							width: volumeWidth(askOrder.amount, totalAndMaxAmount.maxAmount)
 						}}
-						className="amount-bar sell-amount-bar">
+						className="amount-bar sell-amount-bar"
+					>
 						&nbsp;
 					</div>
 					<p className="amount-text sell">{formatNumber(askOrder.amount)}</p>
@@ -44,7 +46,8 @@ const AskOrderItem = ({
 						askOrder.price,
 						previousClose
 					)}`}
-					onClick={() => setBidAskPrice(askOrder.price)}>
+					onClick={() => setBidAskPrice(askOrder.price)}
+				>
 					{formatNumber(askOrder.price)}
 				</button>
 			</td>

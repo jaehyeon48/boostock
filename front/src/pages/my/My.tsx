@@ -122,7 +122,8 @@ const My = () => {
 							role="button"
 							tabIndex={0}
 							onClick={() => switchTab(index)}
-							onKeyDown={() => switchTab(index)}>
+							onKeyDown={() => switchTab(index)}
+						>
 							{Object.values(TAB)[index]}
 						</div>
 					))}

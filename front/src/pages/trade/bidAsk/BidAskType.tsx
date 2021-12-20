@@ -25,7 +25,8 @@ const BidAskType = ({ bidAskType, handleSetBidAskType }: IProps) => {
 					<button
 						className="bidask-type-select-list-btn"
 						type="button"
-						onClick={() => handleSetBidAskType(type)}>
+						onClick={() => handleSetBidAskType(type)}
+					>
 						{type}
 					</button>
 				</li>

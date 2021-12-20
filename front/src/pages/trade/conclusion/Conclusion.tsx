@@ -34,13 +34,15 @@ const Conclusion = ({ previousClose, stockCode }: Props) => {
 				<button
 					type="button"
 					className={`conclusion-tab ${tab === TAB.TICK ? 'conclusion-tab-clicked' : ''}`}
-					onClick={() => setTab(TAB.TICK)}>
+					onClick={() => setTab(TAB.TICK)}
+				>
 					체결
 				</button>
 				<button
 					type="button"
 					className={`conclusion-tab ${tab === TAB.DAY ? 'conclusion-tab-clicked' : ''}`}
-					onClick={() => setTab(TAB.DAY)}>
+					onClick={() => setTab(TAB.DAY)}
+				>
 					일별
 				</button>
 			</div>

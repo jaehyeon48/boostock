@@ -119,7 +119,8 @@ const SignUp = () => {
 						className="signup-submit signup-submit-validate"
 						type="button"
 						tabIndex={0}
-						onClick={checkEamil}>
+						onClick={checkEamil}
+					>
 						중복확인
 					</button>
 				</div>

@@ -110,7 +110,8 @@ const Orders = ({ type }: { type: OrderType }) => {
 					<button
 						className="cancel-order-btn"
 						type="button"
-						onClick={() => cancel(order.orderId, order.orderType, setOrders)}>
+						onClick={() => cancel(order.orderId, order.orderType, setOrders)}
+					>
 						주문취소
 					</button>
 				</td>

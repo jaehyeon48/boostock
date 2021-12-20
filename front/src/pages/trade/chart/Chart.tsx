@@ -132,7 +132,8 @@ const Chart = ({ stockCode, stockState }: IProps) => {
 
 					const moveIndex = Math.floor(e.movementX / MOVE_INDEX_SLOW_WEIGHT);
 					setSliceIndexAfterSlide(moveIndex);
-				}}>
+				}}
+			>
 				<PeriodBackground chartData={chartToRender} chartType={chartType} />
 				<CandleGraph
 					chartData={chartToRender}
@@ -150,13 +151,15 @@ const Chart = ({ stockCode, stockState }: IProps) => {
 				<button
 					type="button"
 					className={chartTypeMenuClass(1, chartType)}
-					onClick={() => handleSetChartType(1)}>
+					onClick={() => handleSetChartType(1)}
+				>
 					1분
 				</button>
 				<button
 					type="button"
 					className={chartTypeMenuClass(1440, chartType)}
-					onClick={() => handleSetChartType(1440)}>
+					onClick={() => handleSetChartType(1440)}
+				>
 					1일
 				</button>
 			</div>

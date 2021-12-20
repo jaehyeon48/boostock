@@ -38,13 +38,15 @@ const BidAskAction = ({ bidAskType, isAmountError, handleReset, handleBidAsk }: 
 			<button
 				type="button"
 				className="bidask-reset-btn signup-action"
-				onClick={handleRedirectToSignUpPage}>
+				onClick={handleRedirectToSignUpPage}
+			>
 				회원가입
 			</button>
 			<button
 				type="button"
 				className="bidask-action-btn signin-action"
-				onClick={handleRedirectToSignInPage}>
+				onClick={handleRedirectToSignInPage}
+			>
 				로그인
 			</button>
 		</>
@@ -62,7 +64,8 @@ const BidAskAction = ({ bidAskType, isAmountError, handleReset, handleBidAsk }: 
 				className={orderActionClass(bidAskType)}
 				type="button"
 				onClick={handleBidAsk}
-				disabled={isAmountError}>
+				disabled={isAmountError}
+			>
 				{bidAskType}
 			</button>
 		</>
