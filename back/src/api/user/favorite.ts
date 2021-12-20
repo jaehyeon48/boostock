@@ -20,21 +20,15 @@ export default (): express.Router => {
 	router.post('/favorite', sessionValidator, async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const { userId } = res.locals;
-			const { stockCode } = req.body;
+			const { stockCode, shouldDeleteFavorite } = req.body;
+
+			if (shouldDeleteFavorite) {
+				await UserFavoriteService.removeUserFavorite(userId, stockCode);
+				res.status(201).json({});
+				return;
+			}
+
 			await UserFavoriteService.createUserFavorite(userId, stockCode);
-
-			res.status(201).json({});
-		} catch (error) {
-			next(error);
-		}
-	});
-
-	router.delete('/favorite', sessionValidator, async (req: Request, res: Response, next: NextFunction) => {
-		try {
-			const { userId } = res.locals;
-			const { stockCode } = req.body;
-			await UserFavoriteService.removeUserFavorite(userId, stockCode);
-
 			res.status(201).json({});
 		} catch (error) {
 			next(error);
