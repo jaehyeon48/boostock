@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import TOAST from '@lib/toastify';
 import { AiFillStar } from 'react-icons/ai';
 
@@ -18,18 +17,18 @@ const ToggleFavorite = ({ isFavorite, isLoggedIn, stockCode, nameKorean, onRefre
 			return;
 		}
 
-		const config = {
+		const config: RequestInit = {
+			method: isFavorite ? 'DELETE' : 'POST',
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json;charset=utf-8'
 			},
-			withCredentials: true
+			body: JSON.stringify({ stockCode })
 		};
 
-		const reqBody = JSON.stringify({ stockCode, shouldDeleteFavorite: isFavorite });
-
 		try {
-			const res = await axios.post(`${process.env.SERVER_URL}/api/user/favorite`, reqBody, config);
-			if (res.status >= 400) throw new Error();
+			const res = await fetch(`${process.env.SERVER_URL}/api/user/favorite`, config);
+			if (!res.ok) throw new Error();
 
 			const toastMessage = isFavorite
 				? ` 종목이 관심 종목에서 제거되었습니다.`
