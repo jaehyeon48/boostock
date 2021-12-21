@@ -17,6 +17,8 @@ export enum StatusType {
 
 export type Theme = 'light' | 'dark';
 
+export type ChartType = 1 | 1440;
+
 export interface IChartItem {
 	createdAt: number;
 	priceStart: number;
@@ -53,6 +55,7 @@ export interface IDailyLog {
 	priceEnd: number;
 	amount: number;
 	createdAt: number;
+	code: string;
 }
 
 export interface IStockExecutionItem {
@@ -121,4 +124,12 @@ export interface IHistory {
 	volume: number;
 	status: number;
 	createdAt: number;
+}
+
+export interface IOrderData {
+	stockCode: string;
+	type: number;
+	option: number;
+	amount: number;
+	price: number;
 }

@@ -1,18 +1,12 @@
 import axios from 'axios';
 import { generateConfig, generateURL, isResponseError } from '@lib/api';
 
-interface IWithdrawData {
-	bank: string;
-	bankAccount: string;
-	changeValue: number;
-}
-
-export default async function withdraw(postData: IWithdrawData): Promise<boolean> {
+export default async function signIn(authCode: string): Promise<boolean> {
 	const config = generateConfig({
-		url: generateURL('user/balance/withdraw'),
+		url: generateURL('auth/github/signin'),
 		method: 'post',
 		headers: { 'Content-Type': 'application/json;charset=utf-8' },
-		data: postData
+		data: { code: authCode }
 	});
 
 	try {

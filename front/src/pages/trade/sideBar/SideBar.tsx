@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { IUser, IStockListItem } from '@src/types';
-import { userAtom, stockListAtom, holdStockListAtom } from '@recoil';
+import { userAtom, holdStockListAtom } from '@recoil';
+import { getHoldStocks, getFavoriteStocks } from '@lib/api';
 import SideBarItem from './sideBarItem/SideBarItem';
-
 import SideBarNav, { MENU } from './sideBarNav/SideBarNav';
 import SearchBar from './searchbar/SearchBar';
 import getRegExp from './getRegExp';
-import { getFavoriteStocks, getHoldStocks } from './refreshStockData';
 
 import './SideBar.scss';
 
-const SideBar = () => {
+interface IProps {
+	stockList: IStockListItem[];
+}
+
+const SideBar = ({ stockList }: IProps) => {
 	const { isLoggedIn } = useRecoilValue<IUser>(userAtom);
 	const [menu, setMenu] = useState(MENU.ALL);
 	const [regex, setRegex] = useState(/.*/);
-
-	const stockListState = useRecoilValue<IStockListItem[]>(stockListAtom);
 	const [filteredStockListState, setFilteredStockListState] = useState<IStockListItem[]>([]);
-
 	const [favorite, setFavorite] = useState<string[]>([]);
 	const [hold, setHold] = useRecoilState<string[]>(holdStockListAtom);
 
@@ -30,7 +30,7 @@ const SideBar = () => {
 		if (!isSignedIn) return;
 
 		setFavorite(await getFavoriteStocks());
-		setHold(await getHoldStocks());
+		setHold((await getHoldStocks()).map((stock: { code: string }) => stock.code));
 	};
 
 	useEffect(() => {
@@ -47,14 +47,14 @@ const SideBar = () => {
 		setFilteredStockListState(() => {
 			switch (menu) {
 				case MENU.FAVORITE:
-					return stockListState.filter((stock: IStockListItem) => favorite.includes(stock.code));
+					return stockList.filter((stock: IStockListItem) => favorite.includes(stock.code));
 				case MENU.HOLD:
-					return stockListState.filter((stock: IStockListItem) => hold.includes(stock.code));
+					return stockList.filter((stock: IStockListItem) => hold.includes(stock.code));
 				default:
-					return stockListState;
+					return stockList;
 			}
 		});
-	}, [menu, stockListState, favorite, hold]);
+	}, [menu, stockList, favorite, hold]);
 
 	return (
 		<div className="sidebar">

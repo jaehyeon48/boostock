@@ -1,6 +1,7 @@
 import React from 'react';
 import TOAST from '@lib/toastify';
 import { AiFillStar } from 'react-icons/ai';
+import { toggleFavorite } from '@lib/api';
 
 interface IProps {
 	isFavorite: boolean;
@@ -11,25 +12,15 @@ interface IProps {
 }
 
 const ToggleFavorite = ({ isFavorite, isLoggedIn, stockCode, nameKorean, onRefresh }: IProps) => {
-	const toggleFavorite = async () => {
+	const handleToggleFavorite = async () => {
 		if (!isLoggedIn) {
 			TOAST.error('로그인이 필요합니다');
 			return;
 		}
 
-		const config: RequestInit = {
-			method: isFavorite ? 'DELETE' : 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json;charset=utf-8'
-			},
-			body: JSON.stringify({ stockCode })
-		};
+		const isToggleSucceeded = await toggleFavorite(stockCode, isFavorite);
 
-		try {
-			const res = await fetch(`${process.env.SERVER_URL}/api/user/favorite`, config);
-			if (!res.ok) throw new Error();
-
+		if (isToggleSucceeded) {
 			const toastMessage = isFavorite
 				? ` 종목이 관심 종목에서 제거되었습니다.`
 				: ` 종목이 관심 종목으로 등록되었습니다.`;
@@ -41,16 +32,17 @@ const ToggleFavorite = ({ isFavorite, isLoggedIn, stockCode, nameKorean, onRefre
 				</span>
 			);
 			onRefresh(isLoggedIn);
-		} catch (error) {
-			TOAST.error('관심 종목 설정에 실패했습니다. 다시 시도해 주세요!');
+			return;
 		}
+
+		TOAST.error('관심 종목 설정에 실패했습니다. 다시 시도해 주세요!');
 	};
 
 	return (
 		<button
 			type="button"
 			className="sidebar__item-favorite"
-			onClick={toggleFavorite}
+			onClick={handleToggleFavorite}
 			aria-label="toggle-favorite"
 		>
 			<AiFillStar color={isFavorite ? '#FFA800' : '#999'} aria-label="favorite-icon" />

@@ -1,19 +1,19 @@
 import axios from 'axios';
 import { generateConfig, generateURL, isResponseError } from '@lib/api';
-import { IUserDataResponse } from '@src/types';
+import { OrderType } from '@src/types';
 
-export default async function getUserInfo(): Promise<IUserDataResponse | null> {
+export default async function cancelOrder(orderId: number, orderType: OrderType): Promise<boolean> {
 	const config = generateConfig({
-		url: generateURL('user')
+		url: generateURL('user/order', `id=${orderId}&type=${orderType}`),
+		method: 'delete'
 	});
 
 	try {
 		const res = await axios(config);
 		if (isResponseError(res.status)) throw new Error();
 
-		const { user } = res.data;
-		return user;
+		return true;
 	} catch (error) {
-		return null;
+		return false;
 	}
 }

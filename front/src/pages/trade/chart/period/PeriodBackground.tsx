@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { IChartItem, Theme, IUser } from '@src/types';
+import { IChartItem, Theme, IUser, ChartType } from '@src/types';
 import { userAtom } from '@recoil';
 import {
-	TChartType,
 	MAKE_CLEAR_OFFSET,
 	MAX_NUM_OF_CANDLES,
 	CANDLE_GAP,
@@ -20,14 +19,14 @@ const LEGEND_TOP = Math.floor(CANVAS_HEIGHT * 0.9);
 
 interface IProps {
 	chartData: IChartItem[];
-	chartType: TChartType;
+	chartType: ChartType;
 }
 
 interface IDrawPeriodBackground {
 	ctx: CanvasRenderingContext2D;
 	chartData: IChartItem[];
 	candleWidth: number;
-	chartType: TChartType;
+	chartType: ChartType;
 	theme: Theme;
 }
 
@@ -37,7 +36,7 @@ interface IDrawCandleDateArgs {
 	createdAt: number;
 	candleWidth: number;
 	numOfPartitions: number;
-	chartType: TChartType;
+	chartType: ChartType;
 }
 
 const calculateNumOfPartitions = (numOfCandles: number) => {

@@ -4,6 +4,7 @@ import { Redirect, useLocation, useHistory } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { IUser } from '@src/types';
 import { userAtom } from '@recoil';
+import { checkEmail, signUp } from '@lib/api';
 import { Emitter, getCookie } from '@common/utils';
 import Terms from './Terms';
 import './SignUp.scss';
@@ -32,47 +33,33 @@ const SignUp = () => {
 	const isValid = () =>
 		username.length > 0 && emailValidator.test(email) && isEmailValidate && term;
 
-	const checkEamil = () => {
-		fetch(`${process.env.SERVER_URL}/api/user/email?email=${email}`, {
-			method: 'GET',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json;charset=utf-8'
-			}
-		}).then(async (res: Response) => {
-			const data = await res.json();
-			if (res.ok) {
-				setEmailValidate(true);
-				TOAST.success('사용할 수 있는 이메일입니다.');
-			} else {
-				setEmailValidate(false);
-				if (data.message === 'EXIST USER') TOAST.error('중복된 이메일입니다.');
-				else if (data.message === 'INVALID PARAM') TOAST.error('사용할 수 없는 이메일입니다.');
-				else TOAST.error('중복확인에 실패했습니다.');
-			}
-		});
+	const handleCheckEmail = async () => {
+		const canUseEmail = await checkEmail(email);
+
+		if (canUseEmail) {
+			setEmailValidate(true);
+			TOAST.success('사용할 수 있는 이메일입니다.');
+			return;
+		}
+
+		setEmailValidate(false);
+		TOAST.error('사용할 수 없는 이메일입니다.');
 	};
 
-	const submit = () => {
+	const handleSubmit = async () => {
 		if (!emailValidator.test(email)) return;
 
-		fetch(`${process.env.SERVER_URL}/api/auth/github/signup`, {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json;charset=utf-8'
-			},
-			body: JSON.stringify({ code: query.get('code'), username, email })
-		}).then((res: Response) => {
-			if (res.ok) {
-				Emitter.emit('REGISTER_ALARM', getCookie('alarm_token'));
-				setUserState({ ...userState, isLoggedIn: true });
-				TOAST.success('성공적으로 회원가입 되었습니다.');
-				history.push('/');
-			} else {
-				TOAST.error('회원가입에 실패했습니다. 잠시 후 재시도 해주세요.');
-			}
-		});
+		const isSignUpSucceeded = await signUp({ code: query.get('code') as string, username, email });
+
+		if (isSignUpSucceeded) {
+			Emitter.emit('REGISTER_ALARM', getCookie('alarm_token'));
+			setUserState({ ...userState, isLoggedIn: true });
+			TOAST.success('성공적으로 회원가입 되었습니다.');
+			history.push('/');
+			return;
+		}
+
+		TOAST.error('회원가입에 실패했습니다. 잠시 후 재시도 해주세요.');
 	};
 
 	return (
@@ -119,7 +106,7 @@ const SignUp = () => {
 						className="signup-submit signup-submit-validate"
 						type="button"
 						tabIndex={0}
-						onClick={checkEamil}
+						onClick={handleCheckEmail}
 					>
 						중복확인
 					</button>
@@ -128,7 +115,7 @@ const SignUp = () => {
 					className="signup-submit"
 					type="button"
 					disabled={!isValid()}
-					onClick={submit}
+					onClick={handleSubmit}
 					value="회원가입"
 				/>
 			</div>

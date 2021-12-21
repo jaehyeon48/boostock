@@ -1,8 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect } from 'react';
-import { SetterOrUpdater, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { IDailyLog } from '@src/types';
 import { dailyLogAtom } from '@recoil';
+import { getDailyLogs } from '@lib/api';
 
 interface Props {
 	stockCode: string;
@@ -27,29 +28,18 @@ const getPriceRate = (prev: number, current: number): string => {
 	return `${rate.toFixed(1)}%`;
 };
 
-const fetchDailyLog = async (
-	stockCode: string,
-	setDailyLog: SetterOrUpdater<IDailyLog[]>
-): Promise<void> => {
-	const config: RequestInit = {
-		method: 'GET',
-		credentials: 'include'
-	};
-	const res = await fetch(
-		`${process.env.SERVER_URL}/api/stock/log/daily?code=${stockCode}`,
-		config
-	);
-	if (!res.ok) throw new Error('Fetch Failed Daily Log Error');
-
-	const { code, logs } = await res.json();
-	if (code === stockCode) setDailyLog(logs);
-};
-
 const Days = ({ stockCode }: Props) => {
 	const [dailyLog, setDailyLog] = useRecoilState(dailyLogAtom);
 
+	const fetchDailyLog = async (stockCode: string): Promise<void> => {
+		const dailyLogRes = await getDailyLogs(stockCode);
+		const { code, logs } = dailyLogRes;
+
+		if (code === stockCode) setDailyLog(logs);
+	};
+
 	useEffect(() => {
-		fetchDailyLog(stockCode, setDailyLog);
+		fetchDailyLog(stockCode);
 	}, [stockCode]);
 
 	return (

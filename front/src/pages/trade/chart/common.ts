@@ -1,4 +1,4 @@
-import { IChartItem, Theme } from '@src/types';
+import { IChartItem, Theme, ChartType } from '@src/types';
 import { formatNumber } from '@common/utils';
 
 export const MAKE_CLEAR_OFFSET = 0.5;
@@ -9,8 +9,6 @@ export const RATIO_MAX = 1.0;
 export const CANDLE_GAP = 5;
 export const PRICE_CANVAS_TOP_BOT_PADDING = 14;
 export const VOLUME_CANVAS_TOP_BOT_PADDING = 7;
-
-export type TChartType = 1 | 1440;
 
 export interface ICrossLine {
 	event: MouseEvent | null;
@@ -51,7 +49,7 @@ export const getMinValue = (
 	Math.min(...chartData.filter(data => data[validProperty] > 0).map(data => data[filterProperty])) *
 	lowerBuffer;
 
-export const formatCandleDate = (timestamp: number, chartType: TChartType = 1) => {
+export const formatCandleDate = (timestamp: number, chartType: ChartType = 1) => {
 	const date = new Date(timestamp);
 	const month = (date.getMonth() + 1).toString().padStart(2, '0');
 	const dd = date.getDate().toString().padStart(2, '0');

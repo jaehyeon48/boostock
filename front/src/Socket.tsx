@@ -21,12 +21,8 @@ import {
 	bidOrdersAtom,
 	stockListAtom
 } from '@recoil';
-import {
-	fetchHoldStocks,
-	translateRequestData,
-	translateResponseData,
-	Emitter
-} from '@common/utils';
+import { translateRequestData, translateResponseData, Emitter } from '@common/utils';
+import { getHoldStocks } from '@lib/api';
 import { ONE_SEC_IN_MILLISECONDS } from '@common/constants';
 
 interface IProps {
@@ -347,7 +343,7 @@ const startSocket = ({
 					Emitter.emit('UPDATE_USER_BALANCE');
 				}
 
-				const holdStockList = await fetchHoldStocks();
+				const holdStockList = await getHoldStocks();
 				Emitter.emit('CONCLUDED_ORDER', data.stockCode, holdStockList);
 				setHold(holdStockList.map((stock: { code: string }) => stock.code));
 				break;

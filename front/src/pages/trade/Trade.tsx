@@ -3,7 +3,8 @@ import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import { ImSpinner8 } from 'react-icons/im';
 import QueryString from 'qs';
-import { IAskOrderItem, IBidOrderItem, IStockListItem } from '@src/types';
+import { IStockListItem } from '@src/types';
+import { getBidAndAskOrders } from '@lib/api';
 import { translateRequestData } from '@common/utils';
 import { websocketAtom, stockListAtom, askOrdersAtom, bidOrdersAtom } from '@recoil';
 import StockInfo from './stockInfo/StockInfo';
@@ -17,11 +18,6 @@ import './Trade.scss';
 interface IConnection {
 	type: string;
 	stockCode?: string;
-}
-
-interface IOrderApiRes {
-	askOrders: IAskOrderItem[];
-	bidOrders: IBidOrderItem[];
 }
 
 const getStockState = (stockList: IStockListItem[], queryData: QueryString.ParsedQs) => {
@@ -44,19 +40,9 @@ const Trade = () => {
 	useEffect(() => {
 		if (!stockId) return;
 		(async () => {
-			try {
-				const bidAskOrdersRes = await fetch(
-					`${process.env.SERVER_URL}/api/stock/bid-ask?stockId=${stockId}`
-				);
-				if (!bidAskOrdersRes.ok) throw new Error('서버 에러');
-				const bidAskOrdersData: IOrderApiRes = await bidAskOrdersRes.json();
-				const { askOrders, bidOrders } = bidAskOrdersData;
-
-				setAskOrders(askOrders.map(askOrder => ({ ...askOrder, amount: Number(askOrder.amount) })));
-				setBidOrders(bidOrders.map(bidOrder => ({ ...bidOrder, amount: Number(bidOrder.amount) })));
-			} catch (error) {
-				// error handling logic goes here
-			}
+			const { askOrders, bidOrders } = await getBidAndAskOrders(stockId);
+			setAskOrders(askOrders.map(askOrder => ({ ...askOrder, amount: Number(askOrder.amount) })));
+			setBidOrders(bidOrders.map(bidOrder => ({ ...bidOrder, amount: Number(bidOrder.amount) })));
 		})();
 	}, [stockId]);
 
@@ -88,7 +74,7 @@ const Trade = () => {
 		<main className="trade">
 			<section className="trade-container">
 				<aside className="aside-bar">
-					<SideBar />
+					<SideBar stockList={stockList} />
 				</aside>
 				<section className="trade-body">
 					<section className="trade-info">

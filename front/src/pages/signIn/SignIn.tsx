@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import TOAST from '@lib/toastify';
 import { Link, Redirect, useLocation, useHistory } from 'react-router-dom';
 import { IUser } from '@src/types';
 import { userAtom } from '@recoil';
+import { signIn } from '@lib/api';
 import { Emitter, getCookie } from '@common/utils';
 
 import './SignIn.scss';
@@ -20,30 +21,27 @@ const SignIn = () => {
 	const SWITCH_URL = isSignUp ? '/auth/signin' : '/auth/signup';
 	const SWITCH_TEXT = isSignUp ? '기존 계정으로 로그인' : '새로운 계정으로 회원가입';
 
-	if (userState.isLoggedIn) {
-		return <Redirect to="/" />;
-	}
+	useEffect(() => {
+		if (!query.get('code')) return;
 
-	if (query.get('code')) {
-		fetch(`${process.env.SERVER_URL}/api/auth/github/signin`, {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json;charset=utf-8'
-			},
-			body: JSON.stringify({ code: query.get('code') })
-		}).then(async (res: Response) => {
-			if (res.ok) {
-				await res.json();
-				Emitter.emit('REGISTER_ALARM', getCookie('alarm_token'));
-				setUserState({ ...userState, isLoggedIn: true });
-				history.push('/');
-				TOAST.success('성공적으로 로그인 되었습니다.');
-			} else {
+		(async () => {
+			const isAuthSucceeded = await signIn(query.get('code') as string);
+
+			if (!isAuthSucceeded) {
 				history.push('/auth/signin');
 				TOAST.error('로그인에 실패했습니다. 잠시 후 재시도 해주세요.');
+				return;
 			}
-		});
+
+			Emitter.emit('REGISTER_ALARM', getCookie('alarm_token'));
+			setUserState({ ...userState, isLoggedIn: true });
+			history.push('/');
+			TOAST.success('성공적으로 로그인 되었습니다.');
+		})();
+	}, []);
+
+	if (userState.isLoggedIn) {
+		return <Redirect to="/" />;
 	}
 
 	return (

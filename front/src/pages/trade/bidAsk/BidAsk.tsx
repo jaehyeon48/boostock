@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import TOAST from '@lib/toastify';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { IUser, IHoldStockItem } from '@src/types';
-import { bidAskPriceAtom, userAtom } from '@recoil';
-import { getUserAskAvailable, getUserBidAvailable, Emitter } from '@common/utils';
+import { useRecoilState } from 'recoil';
+import { IHoldStockItem, IOrderData } from '@src/types';
+import { bidAskPriceAtom } from '@recoil';
+import { order, getHoldStocks, getBalance } from '@lib/api';
+import { Emitter } from '@common/utils';
 import BidAskType from './BidAskType';
 import BidAskInputs from './BidAskInputs';
 import BidAskAction from './BidAskAction';
 
 import './bidask.scss';
-
-interface IOrderData {
-	stockCode: string;
-	type: number;
-	option: number;
-	amount: number;
-	price: number;
-}
 
 const BidAsk = ({ stockCode }: { stockCode: string }) => {
 	const [bidAskType, setBidAskType] = useState<string>('매수');
@@ -25,21 +18,16 @@ const BidAsk = ({ stockCode }: { stockCode: string }) => {
 	const [isAmountError, setIsAmountError] = useState<boolean>(false);
 	const [bidAvailable, setBidAvailable] = useState<number>(0);
 	const [askAvailable, setAskAvailable] = useState<number>(0);
-	const { isLoggedIn } = useRecoilValue<IUser>(userAtom);
 
 	const handleSetBidAskType = (newType: string) => setBidAskType(newType);
 
-	const setUserAvailableAmount = async (
-		code: string,
-		isSignedIn: boolean,
-		askAvailable: number | null = null
-	) => {
-		setBidAvailable(await getUserBidAvailable(isSignedIn));
+	const setUserAvailableAmount = async (askAvailable: number | null = null) => {
+		setBidAvailable((await getBalance(0, 0))?.balance ?? 0);
 		if (askAvailable) {
 			setAskAvailable(askAvailable);
 			return;
 		}
-		setAskAvailable(await getUserAskAvailable(code, isSignedIn));
+		setAskAvailable((await getHoldStocks()).filter(({ code }) => code === stockCode)[0].amount);
 	};
 
 	const handleReset = () => {
@@ -62,57 +50,32 @@ const BidAsk = ({ stockCode }: { stockCode: string }) => {
 			price: bidAskPrice
 		};
 
-		const config: RequestInit = {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(orderData)
-		};
+		const orderRes = await order(orderData);
 
-		try {
-			const res = await fetch(`${process.env.SERVER_URL}/api/user/order`, config);
-
-			if (!res.ok) {
-				const data = await res.json();
-				const error = new Error();
-				error.message = data.message;
-				throw error;
-			}
+		if (orderRes === 'Order Succeeded') {
 			handleReset();
-			await setUserAvailableAmount(stockCode, isLoggedIn);
+			await setUserAvailableAmount();
 			TOAST.success('주문이 접수되었습니다.');
-		} catch (error) {
-			if (error.message === 'Not Correct Quote Digit') {
-				TOAST.error('주문 접수에 실패했습니다. 호가 단위를 확인해주세요.', {
-					style: {
-						textAlign: 'center',
-						maxWidth: '220px'
-					}
-				});
-			} else if (error.message === 'Not Enough Balance') {
-				TOAST.error('주문 접수에 실패했습니다. 잔액이 부족합니다.', {
-					style: {
-						textAlign: 'center',
-						maxWidth: '220px'
-					}
-				});
-			} else {
-				TOAST.error('주문 접수에 실패했습니다. 다시 시도해 주세요.', {
-					style: {
-						textAlign: 'center',
-						maxWidth: '236px'
-					}
-				});
-			}
+			return;
 		}
+
+		if (orderRes === 'Not Correct Quote Digit') {
+			TOAST.error('주문 접수에 실패했습니다. 호가 단위를 확인해주세요.');
+			return;
+		}
+
+		if (orderRes === 'Not Enough Balance') {
+			TOAST.error('주문 접수에 실패했습니다. 잔액이 부족합니다.');
+			return;
+		}
+
+		TOAST.error('주문 접수에 실패했습니다. 다시 시도해 주세요.');
 	};
 
 	useEffect(() => {
 		const listener = async (stockCode: string, holdStockList: IHoldStockItem[]) => {
 			const [holdStock] = holdStockList.filter(({ code }) => code === stockCode);
-			setUserAvailableAmount('', isLoggedIn, holdStock?.amount ?? 0);
+			setUserAvailableAmount(holdStock?.amount ?? 0);
 		};
 
 		Emitter.on('CONCLUDED_ORDER', listener);
@@ -120,7 +83,13 @@ const BidAsk = ({ stockCode }: { stockCode: string }) => {
 		return () => {
 			Emitter.off('CONCLUDED_ORDER', listener);
 		};
-	}, [isLoggedIn]);
+	}, []);
+
+	useEffect(() => {
+		(async () => {
+			await setUserAvailableAmount();
+		})();
+	}, []);
 
 	useEffect(() => {
 		handleReset();
@@ -130,13 +99,6 @@ const BidAsk = ({ stockCode }: { stockCode: string }) => {
 		if (!isAmountError) return;
 		if (bidAskAmount > 0) setIsAmountError(false);
 	}, [bidAskAmount, isAmountError]);
-
-	useEffect(() => {
-		if (!stockCode) return;
-		(async () => {
-			await setUserAvailableAmount(stockCode, isLoggedIn);
-		})();
-	}, [stockCode, isLoggedIn]);
 
 	return (
 		<div className="bidask-container">

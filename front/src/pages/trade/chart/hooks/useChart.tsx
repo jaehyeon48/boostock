@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { IChartItem, IStockListItem, IStockChartItem } from '@src/types';
+import { IChartItem, IStockListItem, IStockChartItem, ChartType } from '@src/types';
 import { chartAtom } from '@recoil';
-import { TChartType, MAX_NUM_OF_CANDLES } from '../common';
-import fetchChartData from '../fetchChartData';
+import { get1MinuteLogs } from '@lib/api';
+import {
+	ONE_HOUR_IN_MILLISECONDS,
+	ONE_MIN_IN_MILLISECONDS,
+	ONE_MONTH_IN_MILLISECONDS
+} from '@common/constants';
+import { MAX_NUM_OF_CANDLES } from '../common';
 
 interface IProps {
 	stockState: IStockListItem;
 	stockCode: string;
-	chartType: TChartType;
+	chartType: ChartType;
 }
 
 interface ISliceIndex {
@@ -44,12 +49,21 @@ const useChart = ({ stockState, stockCode, chartType }: IProps) => {
 		]);
 	};
 
-	const updateChartData = async (stockCode: string, chartType: TChartType, endDate?: number) => {
-		const newChartData = await fetchChartData(stockCode, chartType, endDate);
-		setChart(prev => [...prev, ...newChartData]);
+	const updateChartData = async (
+		stockCode: string,
+		chartType: ChartType,
+		endDate: number = Date.now() - ONE_MIN_IN_MILLISECONDS
+	) => {
+		const startDate =
+			chartType === 1
+				? endDate - ONE_HOUR_IN_MILLISECONDS * 2
+				: endDate - ONE_MONTH_IN_MILLISECONDS * 2;
+
+		const { log } = await get1MinuteLogs(stockCode, chartType, startDate, endDate);
+		setChart(prev => [...prev, ...log.reverse()]);
 	};
 
-	const updateRealtimeCandle = (charts: IStockChartItem[], chartType: TChartType) => {
+	const updateRealtimeCandle = (charts: IStockChartItem[], chartType: ChartType) => {
 		const targetChart = charts.find(({ type }) => type === chartType);
 		if (!targetChart) return;
 

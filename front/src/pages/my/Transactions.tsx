@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { OrderType, IStockListItem } from '@src/types';
 import { stockListAtom } from '@recoil';
 import { toDateString } from '@common/utils';
+import { getTransactions } from '@lib/api';
 import { NINE_HOURS_IN_MILLISECONDS, ONE_MONTH_IN_MILLISECONDS } from '@common/constants';
 import useInfinityScroll from './useInfinityScroll';
 
@@ -23,7 +24,7 @@ const translateOrderTypeToKor = (type: string) => {
 	return '매도';
 };
 
-const refresh = (
+const refresh = async (
 	stockList: IStockListItem[],
 	transactions: ITransaction[],
 	setTransactions: React.Dispatch<React.SetStateAction<ITransaction[]>>,
@@ -34,48 +35,25 @@ const refresh = (
 	const currentTime = Date.now();
 	const beforeTime = currentTime - ONE_MONTH_IN_MILLISECONDS;
 	const lastTime = transactions[transactions.length - 1]?.transactionTime || currentTime;
-	fetch(
-		`${process.env.SERVER_URL}/api/user/transaction?start=${beforeTime}&end=${Math.min(
-			lastTime,
-			currentTime
-		)}`,
-		{
-			method: 'GET',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json; charset=utf-8'
-			}
-		}
-	).then((res: Response) => {
-		if (res.ok) {
-			res.json().then(data => {
-				setTransactions(prev => [
-					...prev,
-					...data.log.map(
-						(log: {
-							type: number;
-							amount: number;
-							createdAt: number;
-							price: number;
-							stockCode: string;
-						}) => {
-							return {
-								transactionTime: log.createdAt,
-								orderType: log.type,
-								stockCode: log.stockCode,
-								stockName: stockList.find(stock => stock.code === log.stockCode)?.nameKorean,
-								price: log.price,
-								amount: log.amount,
-								volume: log.price * log.amount
-							};
-						}
-					)
-				]);
 
-				if (data.log.length > 0) setLoading(false);
-			});
-		}
-	});
+	const transactionLogs = await getTransactions(beforeTime, Math.min(lastTime, currentTime));
+
+	if (transactionLogs.length === 0) return;
+
+	setTransactions(prev => [
+		...prev,
+		...transactionLogs.map(log => ({
+			transactionTime: log.createdAt,
+			orderType: log.type,
+			stockCode: log.stockCode,
+			stockName: stockList.find(stock => stock.code === log.stockCode)?.nameKorean ?? '',
+			price: log.price,
+			amount: log.amount,
+			volume: log.price * log.amount
+		}))
+	]);
+
+	setLoading(false);
 };
 
 const getTransaction = (transaction: ITransaction) => {

@@ -1,4 +1,5 @@
-import { generateConfig, generateURL } from '@lib/api';
+import axios from 'axios';
+import { generateConfig, generateURL, isResponseError } from '@lib/api';
 
 interface IDepositData {
 	bank: string;
@@ -7,18 +8,16 @@ interface IDepositData {
 }
 
 export default async function deposit(postData: IDepositData): Promise<boolean> {
-	const optionalConfig: RequestInit = {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json;charset=utf-8'
-		}
-	};
-	const headers = generateConfig(optionalConfig, postData);
-	const URL = generateURL('user/balance/deposit');
+	const config = generateConfig({
+		url: generateURL('user/balance/deposit'),
+		method: 'post',
+		headers: { 'Content-Type': 'application/json;charset=utf-8' },
+		data: postData
+	});
 
 	try {
-		const res = await fetch(URL, headers);
-		if (!res.ok) throw new Error();
+		const res = await axios(config);
+		if (isResponseError(res.status)) throw new Error();
 
 		return true;
 	} catch (error) {

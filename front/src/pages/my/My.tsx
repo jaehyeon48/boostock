@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { IUser, IStockListItem, IHoldStockItem, IUserHoldItem, OrderType } from '@src/types';
 import { Emitter } from '@common/utils';
 import { userAtom, stockListAtom } from '@recoil';
-import fetchUserHold from './api/fetchUserHold';
+import { getHoldStocks } from '@lib/api';
 import Info from './Info';
 import Holds from './Holds';
 import Transactions from './Transactions';
@@ -50,7 +50,7 @@ const reCalculateUserValuationInfo = (userHold: IUserHoldItem, stockList: IStock
 
 const fetchUserHoldList = async (): Promise<IHoldStockItem[]> => {
 	try {
-		const holdStocks = await fetchUserHold();
+		const holdStocks = await getHoldStocks();
 		if (holdStocks.length === 0) return [];
 
 		return holdStocks;

@@ -4,6 +4,7 @@ import { toDateString } from '@common/utils';
 import { useRecoilValue } from 'recoil';
 import { OrderType, IStockListItem } from '@src/types';
 import { stockListAtom } from '@recoil';
+import { getOrders, cancelOrder } from '@lib/api';
 import { NINE_HOURS_IN_MILLISECONDS } from '@common/constants';
 import useInfinityScroll from './useInfinityScroll';
 
@@ -19,7 +20,7 @@ interface IOrder {
 	orderAmount: number;
 }
 
-const refresh = (
+const loadOrders = async (
 	type: OrderType,
 	stockList: IStockListItem[],
 	orders: IOrder[],
@@ -27,73 +28,44 @@ const refresh = (
 	setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
 	setLoading(true);
-
 	const id = orders[orders.length - 1]?.orderId || 0;
-	fetch(`${process.env.SERVER_URL}/api/user/order?type=${type}&end=${id}`, {
-		method: 'GET',
-		credentials: 'include',
-		headers: {
-			'Content-Type': 'application/json; charset=utf-8'
-		}
-	}).then((res: Response) => {
-		if (res.ok) {
-			res.json().then(data => {
-				setOrders(prev => [
-					...prev,
-					...data.pendingOrder.map(
-						(order: {
-							orderId: number;
-							stockCode: string;
-							nameKorean: string;
-							type: OrderType;
-							amount: number;
-							price: number;
-							createdAt: number;
-						}) => {
-							return {
-								orderId: order.orderId,
-								orderTime: new Date(order.createdAt).getTime() + NINE_HOURS_IN_MILLISECONDS,
-								orderType: order.type,
-								stockCode: order.stockCode,
-								stockName: stockList.find(stock => stock.code === order.stockCode)?.nameKorean,
-								price: order.price,
-								orderAmount: order.amount
-							};
-						}
-					)
-				]);
+	const pendingOrders = await getOrders(type, id);
 
-				if (data.pendingOrder.length > 0) setLoading(false);
-			});
-		}
-	});
-};
+	if (pendingOrders.length === 0) return;
 
-const cancel = (
-	orderId: number,
-	orderType: OrderType,
-	setOrders: React.Dispatch<React.SetStateAction<IOrder[]>>
-) => {
-	fetch(`${process.env.SERVER_URL}/api/user/order?id=${orderId}&type=${orderType}`, {
-		method: 'DELETE',
-		credentials: 'include',
-		headers: {
-			'Content-Type': 'application/json;charset=utf-8'
-		}
-	}).then((res: Response) => {
-		if (res.ok) TOAST.success('주문이 취소되었습니다.');
-		else TOAST.error('주문이 취소하지 못했습니다. 잠시후 재시도해주세요.');
-
-		setOrders(prev => [...prev.filter(order => order.orderId !== orderId)]);
-	});
+	setOrders(prev => [
+		...prev,
+		...pendingOrders.map(pendingOrder => ({
+			orderId: pendingOrder.orderId,
+			orderTime: new Date(pendingOrder.createdAt).getTime() + NINE_HOURS_IN_MILLISECONDS,
+			orderType: pendingOrder.type,
+			stockCode: pendingOrder.stockCode,
+			stockName: stockList.find(stock => stock.code === pendingOrder.stockCode)?.nameKorean ?? '',
+			price: pendingOrder.price,
+			orderAmount: pendingOrder.amount
+		}))
+	]);
+	setLoading(false);
 };
 
 const Orders = ({ type }: { type: OrderType }) => {
 	const stockList = useRecoilValue<IStockListItem[]>(stockListAtom);
 	const [orders, setOrders] = useState<IOrder[]>([]);
 	const [rootRef, targetRef, loading] = useInfinityScroll(
-		refresh.bind(undefined, type, stockList, orders, setOrders)
+		loadOrders.bind(undefined, type, stockList, orders, setOrders)
 	);
+
+	const handleCancelOrder = async (orderId: number, orderType: OrderType) => {
+		const isCancelSucceeded = await cancelOrder(orderId, orderType);
+
+		if (isCancelSucceeded) {
+			TOAST.success('주문이 취소되었습니다.');
+			setOrders(prev => [...prev.filter(order => order.orderId !== orderId)]);
+			return;
+		}
+
+		TOAST.error('주문이 취소하지 못했습니다. 잠시후 재시도해주세요.');
+	};
 
 	const getOrder = (order: IOrder) => {
 		return (
@@ -110,7 +82,7 @@ const Orders = ({ type }: { type: OrderType }) => {
 					<button
 						className="cancel-order-btn"
 						type="button"
-						onClick={() => cancel(order.orderId, order.orderType, setOrders)}
+						onClick={() => handleCancelOrder(order.orderId, order.orderType)}
 					>
 						주문취소
 					</button>

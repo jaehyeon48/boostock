@@ -1,12 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState, useEffect, useRef } from 'react';
-import { IStockListItem } from '@src/types';
-import {
-	ICrossLine,
-	TChartType,
-	PRICE_CANVAS_TOP_BOT_PADDING,
-	VOLUME_CANVAS_TOP_BOT_PADDING
-} from './common';
+import { IStockListItem, ChartType } from '@src/types';
+import { ICrossLine, PRICE_CANVAS_TOP_BOT_PADDING, VOLUME_CANVAS_TOP_BOT_PADDING } from './common';
 import PeriodBackground from './period/PeriodBackground';
 import CandleGraph from './candle/CandleGraph';
 import VolumeGraph from './volume/VolumeGraph';
@@ -36,7 +31,7 @@ const moveCrossLine = (
 
 const isTarget = (target: HTMLElement) => !target.closest('.chart-menu');
 
-const chartTypeMenuClass = (currentlySelectedType: TChartType, wantedType: TChartType) => {
+const chartTypeMenuClass = (currentlySelectedType: ChartType, wantedType: ChartType) => {
 	let result = 'chart-menu-item';
 	if (currentlySelectedType === wantedType) result += ' selected';
 	return result;
@@ -49,16 +44,16 @@ const chartContainerClass = (isUserGrabbing: boolean) => {
 	return result;
 };
 
-const getChartTypeFromLocalStorage = (): TChartType => {
+const getChartTypeFromLocalStorage = (): ChartType => {
 	let chartType = window.localStorage.getItem('chartType');
 	if (chartType !== '1' && chartType !== '1440') chartType = '1';
-	return Number(chartType) as TChartType;
+	return Number(chartType) as ChartType;
 };
 
 const Chart = ({ stockCode, stockState }: IProps) => {
 	const chartRef = useRef<HTMLDivElement>(null);
 	const [isUserGrabbing, setIsUserGrabbing] = useState<boolean>(false);
-	const [chartType, setChartType] = useState<TChartType>(getChartTypeFromLocalStorage);
+	const [chartType, setChartType] = useState<ChartType>(getChartTypeFromLocalStorage);
 	const { chart, chartToRender, setSliceIndexAfterSlide, setSliceIndexAfterZoom } = useChart({
 		stockState,
 		stockCode,
@@ -66,7 +61,7 @@ const Chart = ({ stockCode, stockState }: IProps) => {
 	});
 	const [crossLine, setCrossLine] = useState<ICrossLine>({ event: null, posX: 0, posY: 0 });
 
-	const handleSetChartType = (type: TChartType) => {
+	const handleSetChartType = (type: ChartType) => {
 		window.localStorage.setItem('chartType', type.toString());
 		setChartType(type);
 	};

@@ -1,12 +1,17 @@
-export function generateConfig(options: RequestInit = {}, body: unknown = null): RequestInit {
+import { AxiosRequestConfig } from 'axios';
+
+export function generateConfig(
+	options: AxiosRequestConfig = {},
+	body: unknown = null
+): AxiosRequestConfig {
 	const requestConfig = {
-		method: options.method ?? 'GET',
-		credentials: options.credentials ?? 'include',
+		method: options.method ?? 'get',
+		withCredentials: options.withCredentials ?? true,
 		...options
 	};
 
 	if (body) {
-		requestConfig.body = typeof body === 'object' ? JSON.stringify(body) : (body as BodyInit);
+		requestConfig.data = typeof body === 'object' ? JSON.stringify(body) : body;
 	}
 
 	return requestConfig;
