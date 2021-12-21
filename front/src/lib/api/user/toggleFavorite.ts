@@ -1,12 +1,6 @@
 import axios from 'axios';
 import { generateConfig, generateURL, isResponseError } from '@lib/api';
 
-interface INewUserData {
-	code: string;
-	username: string;
-	email: string;
-}
-
 export default async function toggleFavorite(
 	stockCode: string,
 	shouldDeleteFavorite: boolean
