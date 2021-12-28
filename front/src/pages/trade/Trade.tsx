@@ -12,7 +12,7 @@ import SideBar from './sideBar/SideBar';
 import Chart from './chart/Chart';
 import BidAsk from './bidAsk/BidAsk';
 import Conclusion from './conclusion/Conclusion';
-import OrderBars from './order/OrderBars';
+import OrderBars from './orderBars/OrderBars';
 import './Trade.scss';
 
 interface IConnection {
