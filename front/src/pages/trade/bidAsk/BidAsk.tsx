@@ -27,7 +27,9 @@ const BidAsk = ({ stockCode }: { stockCode: string }) => {
 			setAskAvailable(askAvailable);
 			return;
 		}
-		setAskAvailable((await getHoldStocks()).filter(({ code }) => code === stockCode)[0].amount);
+		setAskAvailable(
+			(await getHoldStocks()).filter(({ code }) => code === stockCode)[0]?.amount ?? 0
+		);
 	};
 
 	const handleReset = () => {
