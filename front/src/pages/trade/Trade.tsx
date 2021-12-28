@@ -12,7 +12,7 @@ import SideBar from './sideBar/SideBar';
 import Chart from './chart/Chart';
 import BidAsk from './bidAsk/BidAsk';
 import Conclusion from './conclusion/Conclusion';
-import Order from './order/Order';
+import OrderBars from './order/OrderBars';
 import './Trade.scss';
 
 interface IConnection {
@@ -84,9 +84,9 @@ const Trade = () => {
 						<Chart stockCode={stockCode} stockState={stockState} />
 					</section>
 					<section className="trade-status">
-						<section className="trade-order">
-							<header className="order-header">호가정보</header>
-							<Order previousClose={stockState.previousClose ?? 0} />
+						<section className="trade-order-bars">
+							<header className="order-bars-header">호가정보</header>
+							<OrderBars previousClose={stockState.previousClose ?? 0} />
 						</section>
 						<section className="trade-bid-ask">
 							<BidAsk stockCode={stockCode} />

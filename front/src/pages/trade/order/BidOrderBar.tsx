@@ -1,4 +1,3 @@
-import React from 'react';
 import { IBidOrderItem } from '@src/types';
 import { formatNumber } from '@common/utils';
 import ITotalAndMaxAmount from './ITotalAndMaxAmount';
@@ -12,7 +11,7 @@ interface IProps {
 	getPriceColorClass: (price: number, previousClose: number) => string;
 }
 
-const BidOrderItem = ({
+const BidOrderBar = ({
 	bidOrder,
 	totalAndMaxAmount,
 	previousClose,
@@ -22,11 +21,11 @@ const BidOrderItem = ({
 }: IProps) => {
 	return (
 		<tr>
-			<td className="order-row-amount sell-amount" />
-			<td className="order-row-price">
+			<td className="order-bar-row-amount sell-amount" />
+			<td className="order-bar-row-price">
 				<button
 					type="button"
-					className={`order-row-price-data order-buy ${getPriceColorClass(
+					className={`order-bar-row-price-data order-buy ${getPriceColorClass(
 						bidOrder.price,
 						previousClose
 					)}`}
@@ -36,7 +35,7 @@ const BidOrderItem = ({
 					{formatNumber(bidOrder.price)}
 				</button>
 			</td>
-			<td className="order-row-amount buy-amount active">
+			<td className="order-bar-row-amount buy-amount active">
 				<button
 					type="button"
 					className="amount-button"
@@ -57,4 +56,4 @@ const BidOrderItem = ({
 	);
 };
 
-export default BidOrderItem;
+export default BidOrderBar;

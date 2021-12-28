@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { IAskOrderItem, IBidOrderItem } from '@src/types';
 import { askOrdersAtom, bidOrdersAtom, bidAskPriceAtom } from '@recoil';
 import { formatNumber } from '@common/utils';
-import AskOrderItem from './AskOrderItem';
-import BidOrderItem from './BidOrderItem';
+import AskOrderItem from './AskOrderBar';
+import BidOrderItem from './BidOrderBar';
 import ITotalAndMaxAmount from './ITotalAndMaxAmount';
 
-import './order.scss';
+import './orderBars.scss';
 
 interface IProps {
 	previousClose: number;
@@ -38,7 +38,7 @@ function volumeWidth(amount: number, maxAmount: number): string {
 	return `${(amount / maxAmount) * 100}%`;
 }
 
-const Order = ({ previousClose }: IProps) => {
+const OrderBar = ({ previousClose }: IProps) => {
 	const isFirstRender = useRef<boolean>(true);
 	const orderContentRef = useRef<HTMLDivElement>(null);
 	const askOrders = useRecoilValue<IAskOrderItem[]>(askOrdersAtom);
@@ -84,9 +84,9 @@ const Order = ({ previousClose }: IProps) => {
 	}
 
 	return (
-		<div className="order-container">
-			<div className="order-content" ref={orderContentRef}>
-				<table className="order-table">
+		<div className="order-bars-container">
+			<div className="order-bars-content" ref={orderContentRef}>
+				<table className="order-bars-table">
 					<tbody>
 						{askOrders.map(askOrder => (
 							<AskOrderItem
@@ -126,4 +126,4 @@ const Order = ({ previousClose }: IProps) => {
 	);
 };
 
-export default Order;
+export default OrderBar;

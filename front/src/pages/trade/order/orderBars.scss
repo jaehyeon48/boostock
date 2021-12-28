@@ -1,7 +1,7 @@
 @import '@common/global.scss';
 @import '@common/mixins.scss';
 
-.order-container {
+.order-bars-container {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
@@ -9,7 +9,7 @@
 	height: calc(100% - 42px);
 }
 
-.order-header {
+.order-bars-header {
 	font-weight: 700;
 	text-align: center;
 	padding: 10px 0;
@@ -20,7 +20,7 @@
 	}
 }
 
-.order-content {
+.order-bars-content {
 	max-height: 470px;
 	overflow-y: auto;
 	@include scrollBarStyle();
@@ -30,22 +30,22 @@
 	}
 }
 
-.order-table {
+.order-bars-table {
 	width: 100%;
 	height: 100%;
 	border-collapse: collapse;
 }
 
-.order-row {
+.order-bar-row {
 	height: 40px;
 	letter-spacing: 1px;
 }
 
-.order-row-price {
+.order-bar-row-price {
 	padding: 0;
 }
 
-.order-row-price-data {
+.order-bar-row-price-data {
 	width: 100%;
 	height: 100%;
 	border: none;
@@ -81,7 +81,7 @@
 	}
 }
 
-.order-row-amount {
+.order-bar-row-amount {
 	position: relative;
 	font-size: 12px;
 	padding: 0;

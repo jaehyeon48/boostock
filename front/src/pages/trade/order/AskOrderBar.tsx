@@ -1,4 +1,3 @@
-import React from 'react';
 import { IAskOrderItem } from '@src/types';
 import { formatNumber } from '@common/utils';
 import ITotalAndMaxAmount from './ITotalAndMaxAmount';
@@ -12,7 +11,7 @@ interface IProps {
 	getPriceColorClass: (price: number, previousClose: number) => string;
 }
 
-const AskOrderItem = ({
+const AskOrderBar = ({
 	askOrder,
 	totalAndMaxAmount,
 	previousClose,
@@ -22,7 +21,7 @@ const AskOrderItem = ({
 }: IProps) => {
 	return (
 		<tr>
-			<td className="order-row-amount sell-amount active">
+			<td className="order-bar-row-amount sell-amount active">
 				<button
 					type="button"
 					className="amount-button"
@@ -40,10 +39,10 @@ const AskOrderItem = ({
 					<p className="amount-text sell">{formatNumber(askOrder.amount)}</p>
 				</button>
 			</td>
-			<td className="order-row-price">
+			<td className="order-bar-row-price">
 				<button
 					type="button"
-					className={`order-row-price-data order-sell ${getPriceColorClass(
+					className={`order-bar-row-price-data order-sell ${getPriceColorClass(
 						askOrder.price,
 						previousClose
 					)}`}
@@ -52,9 +51,9 @@ const AskOrderItem = ({
 					{formatNumber(askOrder.price)}
 				</button>
 			</td>
-			<td className="order-row-amount buy-amount" />
+			<td className="order-bar-row-amount buy-amount" />
 		</tr>
 	);
 };
 
-export default AskOrderItem;
+export default AskOrderBar;
