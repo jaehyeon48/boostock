@@ -36,7 +36,9 @@ const StockInfo = ({ info }: IProps) => {
 	return (
 		<div className="stock-info">
 			<div className="stock-info__left">
-				<header className="stock-name">{nameKorean}</header>
+				<header className="stock-name" aria-label="stock-name">
+					{nameKorean}
+				</header>
 				<div className={`current-price-info ${priceColorClass(percent)}`}>
 					<div className="current-price ">₩{formatNumber(price)}</div>
 					<div className="price-percent">
@@ -47,22 +49,26 @@ const StockInfo = ({ info }: IProps) => {
 			</div>
 			<div className="stock-info__right">
 				<div className="extra-info high-price">
-					<span className="extra-info-data">{formatNumber(priceHigh)}원</span>
+					<span className="extra-info-data" aria-label="high-price">
+						{formatNumber(priceHigh)}원
+					</span>
 					<span className="extra-info-text">고가</span>
 				</div>
 				<div className="extra-info trading-volume">
-					<span className="extra-info-data">
+					<span className="extra-info-data" aria-label="amount-data">
 						{formatNumber(truncateNumber(amount))}
 						{truncateUnit(amount, '주')}
 					</span>
 					<span className="extra-info-text">거래량</span>
 				</div>
 				<div className="extra-info low-price">
-					<span className="extra-info-data">{formatNumber(priceLow)}원</span>
+					<span className="extra-info-data" aria-label="low-price">
+						{formatNumber(priceLow)}원
+					</span>
 					<span className="extra-info-text">저가</span>
 				</div>
 				<div className="extra-info trading-amount">
-					<span className="extra-info-data">
+					<span className="extra-info-data" aria-label="volume-data">
 						{formatNumber(truncateNumber(volume))}
 						{truncateUnit(volume, '원')}
 					</span>

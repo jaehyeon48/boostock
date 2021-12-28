@@ -42,7 +42,7 @@ const Ticks = (props: Props) => {
 					stockExecutionState.executions.map((log: IStockExecutionItem) => {
 						const [day, time] = translateTimestampFormat(log.timestamp).split(' ');
 						return (
-							<div className="conclusion-row" key={log.id}>
+							<div className="conclusion-row" key={log.id} aria-label="conclusion-list-item">
 								<div className="conclusion-timestamp">
 									<span className="timestamp-day">{day}</span>
 									<span className="timestamp-time">{time}</span>

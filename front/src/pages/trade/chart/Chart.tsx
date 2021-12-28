@@ -101,6 +101,7 @@ const Chart = ({ stockCode, stockState }: IProps) => {
 	return (
 		<div className="chart">
 			<div
+				aria-label="stock-chart"
 				className={chartContainerClass(isUserGrabbing)}
 				ref={chartRef}
 				role="main"

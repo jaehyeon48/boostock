@@ -31,6 +31,7 @@ const BidOrderItem = ({
 						previousClose
 					)}`}
 					onClick={() => setBidAskPrice(bidOrder.price)}
+					aria-label="bid-amount-bar"
 				>
 					{formatNumber(bidOrder.price)}
 				</button>

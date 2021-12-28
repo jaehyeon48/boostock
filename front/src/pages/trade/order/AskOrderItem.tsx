@@ -27,6 +27,7 @@ const AskOrderItem = ({
 					type="button"
 					className="amount-button"
 					onClick={() => setBidAskPrice(askOrder.price)}
+					aria-label="ask-amount-bar"
 				>
 					<div
 						style={{

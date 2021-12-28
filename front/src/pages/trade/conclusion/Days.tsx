@@ -59,7 +59,7 @@ const Days = ({ stockCode }: Props) => {
 						const day = translateTimestampFormat(log.createdAt).split(' ');
 						const colors = colorPicker(dailyLog[index + 1]?.priceEnd, log.priceEnd);
 						return (
-							<div className="conclusion-row" key={log._id}>
+							<div className="conclusion-row" key={log._id} aria-label="conclusion-list-item">
 								<div className="conclusion-timestamp">
 									<span className="timestamp-day">{day}</span>
 								</div>
