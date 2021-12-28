@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { IUser, IStockListItem } from '@src/types';
-import { userAtom, holdStockListAtom } from '@recoil';
+import { userAtom, holdStockListAtom, stockListAtom } from '@recoil';
 import { getHoldStocks, getFavoriteStocks } from '@lib/api';
 import SideBarItem from './sideBarItem/SideBarItem';
 import SideBarNav, { MENU } from './sideBarNav/SideBarNav';
@@ -10,12 +10,9 @@ import getRegExp from './getRegExp';
 
 import './SideBar.scss';
 
-interface IProps {
-	stockList: IStockListItem[];
-}
-
-const SideBar = ({ stockList }: IProps) => {
+const SideBar = () => {
 	const { isLoggedIn } = useRecoilValue<IUser>(userAtom);
+	const stockList = useRecoilValue<IStockListItem[]>(stockListAtom);
 	const [menu, setMenu] = useState(MENU.ALL);
 	const [regex, setRegex] = useState(/.*/);
 	const [filteredStockListState, setFilteredStockListState] = useState<IStockListItem[]>([]);

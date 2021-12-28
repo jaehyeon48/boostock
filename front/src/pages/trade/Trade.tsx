@@ -74,7 +74,7 @@ const Trade = () => {
 		<main className="trade">
 			<section className="trade-container">
 				<aside className="aside-bar">
-					<SideBar stockList={stockList} />
+					<SideBar />
 				</aside>
 				<section className="trade-body">
 					<section className="trade-info">
