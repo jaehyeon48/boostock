@@ -1,4 +1,3 @@
-import bidAskPriceAtom from './bidAskPrice';
 import chartAtom from './chart';
 import dailyLogAtom from './dailyLog';
 import stockExecutionAtom from './stockExecution';
@@ -8,7 +7,6 @@ import userAtom from './user';
 import websocketAtom from './websocket';
 
 export {
-	bidAskPriceAtom,
 	chartAtom,
 	dailyLogAtom,
 	stockExecutionAtom,

@@ -1,13 +1,14 @@
 import { renderWithRecoil, screen, userEvent } from '@lib/testingLibrary';
+import { OrderPriceContextProvider } from '@pages/contexts';
 import OrderBars from '../orderBars/OrderBars';
 import Order from '../order/Order';
 
 test('Type order price when a user clicks an order bar', async () => {
 	renderWithRecoil(
-		<>
+		<OrderPriceContextProvider>
 			<OrderBars previousClose={0} />
 			<Order stockCode="HNX" />
-		</>
+		</OrderPriceContextProvider>
 	);
 
 	const askAmountBars = await screen.findAllByLabelText('ask-amount-bar');

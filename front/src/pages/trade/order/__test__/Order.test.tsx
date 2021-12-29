@@ -1,8 +1,13 @@
 import { renderWithRecoil, screen, userEvent } from '@lib/testingLibrary';
+import { OrderPriceContextProvider } from '@pages/contexts';
 import Order from '../Order';
 
 test('Check whether Order view is rendered correctly', async () => {
-	renderWithRecoil(<Order stockCode="HNX" />);
+	renderWithRecoil(
+		<OrderPriceContextProvider>
+			<Order stockCode="HNX" />
+		</OrderPriceContextProvider>
+	);
 
 	const stockCodeContent = await screen.findByText('HNX');
 	expect(stockCodeContent).toBeInTheDocument();
@@ -27,7 +32,11 @@ test('Check whether Order view is rendered correctly', async () => {
 });
 
 test('Change order tab from bid to ask by clicking switch tab button', async () => {
-	renderWithRecoil(<Order stockCode="HNX" />);
+	renderWithRecoil(
+		<OrderPriceContextProvider>
+			<Order stockCode="HNX" />
+		</OrderPriceContextProvider>
+	);
 
 	const orderBtn = await screen.findByLabelText('order');
 	expect(orderBtn).toHaveTextContent('매수');
@@ -42,7 +51,11 @@ test('Change order tab from bid to ask by clicking switch tab button', async () 
 });
 
 test('Clear all inputs by clicking the reset button', async () => {
-	renderWithRecoil(<Order stockCode="HNX" />);
+	renderWithRecoil(
+		<OrderPriceContextProvider>
+			<Order stockCode="HNX" />
+		</OrderPriceContextProvider>
+	);
 
 	const orderPriceInputBox = await screen.findByLabelText('Order price input box');
 	const orderAmountInputBox = await screen.findByLabelText('Order amount input box');
@@ -62,7 +75,11 @@ test('Clear all inputs by clicking the reset button', async () => {
 });
 
 test('Show an error message when a user tries to order with zero amount', async () => {
-	renderWithRecoil(<Order stockCode="HNX" />);
+	renderWithRecoil(
+		<OrderPriceContextProvider>
+			<Order stockCode="HNX" />
+		</OrderPriceContextProvider>
+	);
 
 	const orderPriceInputBox = await screen.findByLabelText('Order price input box');
 	const orderAmountInputBox = await screen.findByLabelText('Order amount input box');

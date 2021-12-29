@@ -7,6 +7,7 @@ import { IStockListItem } from '@src/types';
 import { getBidAndAskOrders } from '@lib/api';
 import { translateRequestData } from '@common/utils';
 import { websocketAtom, stockListAtom, askOrdersAtom, bidOrdersAtom } from '@recoil';
+import { OrderPriceContextProvider } from '@pages/contexts';
 import StockInfo from './stockInfo/StockInfo';
 import SideBar from './sideBar/SideBar';
 import Chart from './chart/Chart';
@@ -84,13 +85,15 @@ const Trade = () => {
 						<Chart stockCode={stockCode} stockState={stockState} />
 					</section>
 					<section className="trade-status">
-						<section className="trade-order-bars">
-							<header className="order-bars-header">호가정보</header>
-							<OrderBars previousClose={stockState.previousClose ?? 0} />
-						</section>
-						<section className="trade-order">
-							<Order stockCode={stockCode} />
-						</section>
+						<OrderPriceContextProvider>
+							<section className="trade-order-bars">
+								<header className="order-bars-header">호가정보</header>
+								<OrderBars previousClose={stockState.previousClose ?? 0} />
+							</section>
+							<section className="trade-order">
+								<Order stockCode={stockCode} />
+							</section>
+						</OrderPriceContextProvider>
 					</section>
 					<section className="trade-conclusion">
 						<TradingLogs previousClose={stockState.previousClose} stockCode={stockCode} />

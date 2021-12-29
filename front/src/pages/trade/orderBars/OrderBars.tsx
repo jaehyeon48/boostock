@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { IAskOrderItem, IBidOrderItem } from '@src/types';
-import { askOrdersAtom, bidOrdersAtom, bidAskPriceAtom } from '@recoil';
+import { askOrdersAtom, bidOrdersAtom } from '@recoil';
 import { formatNumber } from '@common/utils';
+import { useUpdateOrderPrice } from '@pages/contexts';
 import AskOrderItem from './AskOrderBar';
 import BidOrderItem from './BidOrderBar';
 import ITotalAndMaxAmount from './ITotalAndMaxAmount';
@@ -43,8 +44,7 @@ const OrderBar = ({ previousClose }: IProps) => {
 	const orderContentRef = useRef<HTMLDivElement>(null);
 	const askOrders = useRecoilValue<IAskOrderItem[]>(askOrdersAtom);
 	const bidOrders = useRecoilValue<IBidOrderItem[]>(bidOrdersAtom);
-
-	const setBidAskPrice = useSetRecoilState(bidAskPriceAtom);
+	const setBidAskPrice = useUpdateOrderPrice();
 	const [totalAndMaxAmount, setTotalAndMaxVolumes] = useState(() =>
 		calculateTotalAndMaxAmount(askOrders, bidOrders)
 	);

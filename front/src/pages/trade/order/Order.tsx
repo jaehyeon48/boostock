@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import TOAST from '@lib/toastify';
-import { useRecoilState } from 'recoil';
 import { IHoldStockItem, IOrderData } from '@src/types';
-import { bidAskPriceAtom } from '@recoil';
+import { useOrderPrice, useUpdateOrderPrice } from '@pages/contexts';
 import { order, getHoldStocks, getBalance } from '@lib/api';
 import { Emitter } from '@common/utils';
 import OrderType from './OrderType';
@@ -13,11 +12,12 @@ import './order.scss';
 
 const Order = ({ stockCode }: { stockCode: string }) => {
 	const [orderType, setOrderType] = useState<string>('매수');
-	const [orderPrice, setOrderPrice] = useRecoilState(bidAskPriceAtom);
 	const [orderAmount, setOrderAmount] = useState<number>(0);
 	const [isAmountError, setIsAmountError] = useState<boolean>(false);
 	const [bidAvailable, setBidAvailable] = useState<number>(0);
 	const [askAvailable, setAskAvailable] = useState<number>(0);
+	const orderPrice = useOrderPrice();
+	const setOrderPrice = useUpdateOrderPrice();
 
 	const handleSetOrderType = (newType: string) => setOrderType(newType);
 

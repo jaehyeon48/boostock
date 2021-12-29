@@ -1,8 +1,13 @@
 import { renderWithRecoil, screen } from '@lib/testingLibrary';
+import { OrderPriceContextProvider } from '@pages/contexts';
 import OrderBars from '../OrderBars';
 
 test('Check whether OrderBars view is rendered correctly', async () => {
-	renderWithRecoil(<OrderBars previousClose={0} />);
+	renderWithRecoil(
+		<OrderPriceContextProvider>
+			<OrderBars previousClose={0} />
+		</OrderPriceContextProvider>
+	);
 
 	const numOfAskOrders = 10;
 	const numOfBidOrders = 10;
