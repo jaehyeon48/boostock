@@ -1,20 +1,20 @@
 @import '@common/global.scss';
 
-.bidask-container {
+.order-container {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
 }
 
-.bidask-type-select-list {
+.order-type-select-list {
 	display: flex;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
 
-.bidask-type-select-list-item {
+.order-type-select-list-item {
 	position: relative;
 	color: #1a1a1a;
 	font-weight: 700;
@@ -37,7 +37,7 @@
 	}
 }
 
-.bidask-type-select-list-btn {
+.order-type-select-list-btn {
 	background: none;
 	border: none;
 	outline: none;
@@ -51,11 +51,11 @@
 	}
 }
 
-.bidask-type-bid {
+.order-type-bid {
 	&.on {
 		border-bottom: 4px solid $red;
 
-		& .bidask-type-select-list-btn {
+		& .order-type-select-list-btn {
 			color: $red;
 		}
 	}
@@ -64,18 +64,18 @@
 		&.on {
 			border-bottom: 4px solid $darkModeRed;
 
-			& .bidask-type-select-list-btn {
+			& .order-type-select-list-btn {
 				color: $darkModeRed;
 			}
 		}
 	}
 }
 
-.bidask-type-ask {
+.order-type-ask {
 	&.on {
 		border-bottom: 4px solid $blue;
 
-		& .bidask-type-select-list-btn {
+		& .order-type-select-list-btn {
 			color: $blue;
 		}
 	}
@@ -84,14 +84,14 @@
 		&.on {
 			border-bottom: 4px solid $darkModeLightBlue;
 
-			& .bidask-type-select-list-btn {
+			& .order-type-select-list-btn {
 				color: $darkModeLightBlue;
 			}
 		}
 	}
 }
 
-.bidask-info-container {
+.order-info-container {
 	border-top: 1px solid $borderColor;
 	padding: 30px 16px 16px;
 	height: 65%;
@@ -105,13 +105,13 @@
 	}
 }
 
-.bidask-info-list {
+.order-info-list {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
 
-.bidask-info-list-item {
+.order-info-list-item {
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -120,20 +120,20 @@
 	height: 46px;
 }
 
-.bidask-stock-code {
+.order-stock-code {
 	font-weight: 700;
 }
 
-.bidask-info-price {
+.order-info-price {
 	font-weight: 700;
 }
 
-.bidask-info-won-text {
+.order-info-won-text {
 	font-size: 12px;
 	margin-left: 2px;
 }
 
-.bidask-info-text {
+.order-info-text {
 	font-size: 13px;
 	color: $darkBlue;
 	font-weight: 700;
@@ -143,7 +143,7 @@
 	}
 }
 
-.bidask-info-text-input {
+.order-info-text-input {
 	border: 1px solid $borderColor;
 	border-radius: 4px;
 	padding: 8px;
@@ -166,7 +166,7 @@
 	}
 }
 
-.bidask-error-notice {
+.order-error-notice {
 	display: flex;
 	position: absolute;
 	bottom: -14px;
@@ -178,20 +178,20 @@
 	}
 }
 
-.bidask-total-price-container {
+.order-total-price-container {
 	display: flex;
 	align-items: center;
 	max-width: 80%;
 }
 
-.bidask-total-price {
+.order-total-price {
 	display: inline-block;
 	max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-.bidask-action-container {
+.order-action-container {
 	display: flex;
 	justify-content: space-between;
 	padding: 0 14px;
@@ -201,7 +201,7 @@
 	}
 }
 
-.bidask-reset-btn {
+.order-reset-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -219,7 +219,7 @@
 	}
 }
 
-.bidask-action-btn {
+.order-action-btn {
 	color: $white;
 	font-weight: 700;
 	width: 65%;
@@ -244,7 +244,7 @@
 	}
 }
 
-.bidask-action-reset-icon {
+.order-action-reset-icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;

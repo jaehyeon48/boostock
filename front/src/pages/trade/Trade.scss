@@ -68,7 +68,7 @@ $aside-width: 400px;
 
 	@include darkModeCardStyle();
 }
-.trade-bid-ask {
+.trade-order {
 	flex: 1;
 	height: 100%;
 	box-shadow: 2px 2px 4px #dee1e7;

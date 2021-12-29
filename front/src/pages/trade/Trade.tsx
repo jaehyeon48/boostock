@@ -10,7 +10,7 @@ import { websocketAtom, stockListAtom, askOrdersAtom, bidOrdersAtom } from '@rec
 import StockInfo from './stockInfo/StockInfo';
 import SideBar from './sideBar/SideBar';
 import Chart from './chart/Chart';
-import BidAsk from './bidAsk/BidAsk';
+import Order from './order/Order';
 import Conclusion from './conclusion/Conclusion';
 import OrderBars from './orderBars/OrderBars';
 import './Trade.scss';
@@ -88,8 +88,8 @@ const Trade = () => {
 							<header className="order-bars-header">호가정보</header>
 							<OrderBars previousClose={stockState.previousClose ?? 0} />
 						</section>
-						<section className="trade-bid-ask">
-							<BidAsk stockCode={stockCode} />
+						<section className="trade-order">
+							<Order stockCode={stockCode} />
 						</section>
 					</section>
 					<section className="trade-conclusion">

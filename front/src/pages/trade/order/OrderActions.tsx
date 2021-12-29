@@ -1,4 +1,3 @@
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { GrPowerReset } from 'react-icons/gr';
 import { useRecoilValue } from 'recoil';
@@ -6,22 +5,22 @@ import { IUser } from '@src/types';
 import { userAtom } from '@recoil';
 
 interface IProps {
-	bidAskType: string;
+	orderType: string;
 	isAmountError: boolean;
 	handleReset: () => void;
-	handleBidAsk: () => void;
+	handleOrder: () => void;
 }
 
-function orderActionClass(bidAskType: string): string {
-	let result = 'bidask-action-btn';
+function orderActionClass(orderType: string): string {
+	let result = 'order-action-btn';
 
-	if (bidAskType === '매수') result += ' bid-action';
-	if (bidAskType === '매도') result += ' ask-action';
+	if (orderType === '매수') result += ' bid-action';
+	if (orderType === '매도') result += ' ask-action';
 
 	return result;
 }
 
-const BidAskAction = ({ bidAskType, isAmountError, handleReset, handleBidAsk }: IProps) => {
+const OrderActions = ({ orderType, isAmountError, handleReset, handleOrder }: IProps) => {
 	const history = useHistory();
 	const { isLoggedIn } = useRecoilValue<IUser>(userAtom);
 
@@ -37,14 +36,14 @@ const BidAskAction = ({ bidAskType, isAmountError, handleReset, handleBidAsk }: 
 		<>
 			<button
 				type="button"
-				className="bidask-reset-btn signup-action"
+				className="order-reset-btn signup-action"
 				onClick={handleRedirectToSignUpPage}
 			>
 				회원가입
 			</button>
 			<button
 				type="button"
-				className="bidask-action-btn signin-action"
+				className="order-action-btn signin-action"
 				onClick={handleRedirectToSignInPage}
 			>
 				로그인
@@ -54,24 +53,24 @@ const BidAskAction = ({ bidAskType, isAmountError, handleReset, handleBidAsk }: 
 
 	const authContent = (
 		<>
-			<button onClick={handleReset} className="bidask-reset-btn" type="button">
-				<span className="bidask-action-reset-icon">
+			<button onClick={handleReset} className="order-reset-btn" type="button">
+				<span className="order-action-reset-icon">
 					<GrPowerReset />
 				</span>
 				초기화
 			</button>
 			<button
-				className={orderActionClass(bidAskType)}
+				className={orderActionClass(orderType)}
 				type="button"
-				onClick={handleBidAsk}
+				onClick={handleOrder}
 				disabled={isAmountError}
 			>
-				{bidAskType}
+				{orderType}
 			</button>
 		</>
 	);
 
-	return <div className="bidask-action-container">{isLoggedIn ? authContent : guestContent}</div>;
+	return <div className="order-action-container">{isLoggedIn ? authContent : guestContent}</div>;
 };
 
-export default BidAskAction;
+export default OrderActions;

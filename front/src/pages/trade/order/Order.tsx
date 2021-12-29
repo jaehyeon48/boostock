@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import TOAST from '@lib/toastify';
 import { useRecoilState } from 'recoil';
 import { IHoldStockItem, IOrderData } from '@src/types';
 import { bidAskPriceAtom } from '@recoil';
 import { order, getHoldStocks, getBalance } from '@lib/api';
 import { Emitter } from '@common/utils';
-import BidAskType from './BidAskType';
-import BidAskInputs from './BidAskInputs';
-import BidAskAction from './BidAskAction';
+import OrderType from './OrderType';
+import OrderInputs from './OrderInputs';
+import OrderActions from './OrderActions';
 
-import './bidask.scss';
+import './order.scss';
 
-const BidAsk = ({ stockCode }: { stockCode: string }) => {
-	const [bidAskType, setBidAskType] = useState<string>('매수');
-	const [bidAskPrice, setBidAskPrice] = useRecoilState(bidAskPriceAtom);
-	const [bidAskAmount, setBidAskAmount] = useState<number>(0);
+const Order = ({ stockCode }: { stockCode: string }) => {
+	const [orderType, setOrderType] = useState<string>('매수');
+	const [orderPrice, setOrderPrice] = useRecoilState(bidAskPriceAtom);
+	const [orderAmount, setOrderAmount] = useState<number>(0);
 	const [isAmountError, setIsAmountError] = useState<boolean>(false);
 	const [bidAvailable, setBidAvailable] = useState<number>(0);
 	const [askAvailable, setAskAvailable] = useState<number>(0);
 
-	const handleSetBidAskType = (newType: string) => setBidAskType(newType);
+	const handleSetOrderType = (newType: string) => setOrderType(newType);
 
 	const setUserAvailableAmount = async (askAvailable: number | null = null) => {
 		setBidAvailable((await getBalance(0, 0))?.balance ?? 0);
@@ -33,23 +33,23 @@ const BidAsk = ({ stockCode }: { stockCode: string }) => {
 	};
 
 	const handleReset = () => {
-		setBidAskPrice(0);
-		setBidAskAmount(0);
+		setOrderPrice(0);
+		setOrderAmount(0);
 		setIsAmountError(false);
 	};
 
-	const handleBidAsk = async () => {
-		if (bidAskAmount === 0) {
+	const handleOrder = async () => {
+		if (orderAmount === 0) {
 			setIsAmountError(true);
 			return;
 		}
 
 		const orderData: IOrderData = {
 			stockCode,
-			type: bidAskType === '매도' ? 1 : 2,
+			type: orderType === '매도' ? 1 : 2,
 			option: 1,
-			amount: bidAskAmount,
-			price: bidAskPrice
+			amount: orderAmount,
+			price: orderPrice
 		};
 
 		const orderRes = await order(orderData);
@@ -95,37 +95,37 @@ const BidAsk = ({ stockCode }: { stockCode: string }) => {
 
 	useEffect(() => {
 		handleReset();
-	}, [bidAskType]);
+	}, [orderType]);
 
 	useEffect(() => {
 		if (!isAmountError) return;
-		if (bidAskAmount > 0) setIsAmountError(false);
-	}, [bidAskAmount, isAmountError]);
+		if (orderAmount > 0) setIsAmountError(false);
+	}, [orderAmount, isAmountError]);
 
 	return (
-		<div className="bidask-container">
-			<BidAskType bidAskType={bidAskType} handleSetBidAskType={handleSetBidAskType} />
-			<div className="bidask-info-container">
-				<BidAskInputs
-					bidAskType={bidAskType}
-					bidAskPrice={bidAskPrice}
-					bidAskAmount={bidAskAmount}
+		<div className="order-container">
+			<OrderType orderType={orderType} handleSetOrderType={handleSetOrderType} />
+			<div className="order-info-container">
+				<OrderInputs
+					orderType={orderType}
+					orderPrice={orderPrice}
+					orderAmount={orderAmount}
 					isAmountError={isAmountError}
 					askAvailable={askAvailable}
 					bidAvailable={bidAvailable}
 					stockCode={stockCode}
-					setBidAskPrice={setBidAskPrice}
-					setBidAskAmount={setBidAskAmount}
+					setOrderPrice={setOrderPrice}
+					setOrderAmount={setOrderAmount}
 				/>
 			</div>
-			<BidAskAction
-				bidAskType={bidAskType}
+			<OrderActions
+				orderType={orderType}
 				isAmountError={isAmountError}
 				handleReset={handleReset}
-				handleBidAsk={handleBidAsk}
+				handleOrder={handleOrder}
 			/>
 		</div>
 	);
 };
 
-export default BidAsk;
+export default Order;
