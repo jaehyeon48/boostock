@@ -88,13 +88,11 @@ export interface IUserDataResponse {
 }
 
 export interface IAskOrderItem {
-	type: OrderType.ASK;
 	price: number;
 	amount: number;
 }
 
 export interface IBidOrderItem {
-	type: OrderType.BID;
 	price: number;
 	amount: number;
 }
