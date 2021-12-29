@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { IDailyLog } from '@src/types';
 import { dailyLogAtom } from '@recoil';
