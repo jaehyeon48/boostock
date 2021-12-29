@@ -1,7 +1,7 @@
 import { renderWithRecoil, screen } from '@lib/testingLibrary';
 import StockInfo from '../StockInfo';
 
-test('Check whether SideBar view is rendered correctly', async () => {
+test('Check whether StockInfo view is rendered correctly', async () => {
 	renderWithRecoil(<StockInfo info={dummyStockState} />);
 
 	const stockNameHeader = await screen.findByLabelText('stock-name');
