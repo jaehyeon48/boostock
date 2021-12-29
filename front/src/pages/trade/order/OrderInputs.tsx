@@ -75,6 +75,7 @@ const OrderInputs = ({
 						value={formatNumber(orderPrice)}
 						onChange={handleOrderPrice}
 						maxLength={13}
+						aria-label="Order price input box"
 					/>
 					<span className="order-info-won-text">원</span>
 				</div>
@@ -88,6 +89,7 @@ const OrderInputs = ({
 						value={formatNumber(orderAmount)}
 						onChange={handleOrderAmount}
 						maxLength={5}
+						aria-label="Order amount input box"
 					/>
 					<span className="order-info-won-text">주</span>
 					{isAmountError && (
