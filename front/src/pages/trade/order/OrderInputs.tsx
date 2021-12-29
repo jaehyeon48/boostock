@@ -60,7 +60,7 @@ const OrderInputs = ({
 			<li className="order-info-list-item">
 				<span className="order-info-text">{orderType === '매수' ? '매수가능' : '매도가능'}</span>
 				<span className="order-info-price-container">
-					<span className="order-info-price">
+					<span className="order-info-price" aria-label="order-available">
 						{orderType === '매수' ? formatNumber(bidAvailable) : formatNumber(askAvailable)}
 					</span>
 					<span className="order-info-won-text">{orderType === '매수' ? '원' : '주'}</span>
@@ -103,7 +103,7 @@ const OrderInputs = ({
 			<li className="order-info-list-item">
 				<span className="order-info-text">주문총액</span>
 				<div className="order-total-price-container">
-					<span className="order-total-price">
+					<span className="order-total-price" aria-label="Total order amount">
 						{formatNumber(calculateTotalOrderPrice(orderPrice, orderAmount))}
 					</span>
 					<span className="order-info-won-text">원</span>

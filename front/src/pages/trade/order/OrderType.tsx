@@ -24,6 +24,7 @@ const OrderType = ({ orderType, handleSetOrderType }: IProps) => {
 						className="order-type-select-list-btn"
 						type="button"
 						onClick={() => handleSetOrderType(type)}
+						aria-label={`${type === '매수' ? 'Bid order tab' : 'Ask order tab'}`}
 					>
 						{type}
 					</button>

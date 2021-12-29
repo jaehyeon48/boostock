@@ -64,6 +64,7 @@ const OrderActions = ({ orderType, isAmountError, handleReset, handleOrder }: IP
 				type="button"
 				onClick={handleOrder}
 				disabled={isAmountError}
+				aria-label="order"
 			>
 				{orderType}
 			</button>
