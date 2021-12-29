@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import './conclusion.scss';
+import './tradingLogs.scss';
 import Ticks from './Ticks';
 import Days from './Days';
 
@@ -14,7 +14,7 @@ interface Props {
 	previousClose: number;
 }
 
-const Conclusion = ({ previousClose, stockCode }: Props) => {
+const TradingLogs = ({ previousClose, stockCode }: Props) => {
 	const [tab, setTab] = useState(TAB.TICK);
 
 	const getCurrentTab = () => {
@@ -29,18 +29,18 @@ const Conclusion = ({ previousClose, stockCode }: Props) => {
 	};
 
 	return (
-		<div className="conclusion-container">
-			<div className="conclusion-title">
+		<div className="trading-logs-container">
+			<div className="trading-logs-title">
 				<button
 					type="button"
-					className={`conclusion-tab ${tab === TAB.TICK ? 'conclusion-tab-clicked' : ''}`}
+					className={`trading-logs-tab ${tab === TAB.TICK ? 'trading-logs-tab-clicked' : ''}`}
 					onClick={() => setTab(TAB.TICK)}
 				>
 					체결
 				</button>
 				<button
 					type="button"
-					className={`conclusion-tab ${tab === TAB.DAY ? 'conclusion-tab-clicked' : ''}`}
+					className={`trading-logs-tab ${tab === TAB.DAY ? 'trading-logs-tab-clicked' : ''}`}
 					onClick={() => setTab(TAB.DAY)}
 				>
 					일별
@@ -51,4 +51,4 @@ const Conclusion = ({ previousClose, stockCode }: Props) => {
 	);
 };
 
-export default Conclusion;
+export default TradingLogs;

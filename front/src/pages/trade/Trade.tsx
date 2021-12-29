@@ -11,7 +11,7 @@ import StockInfo from './stockInfo/StockInfo';
 import SideBar from './sideBar/SideBar';
 import Chart from './chart/Chart';
 import Order from './order/Order';
-import Conclusion from './conclusion/Conclusion';
+import TradingLogs from './tradingLogs/TradingLogs';
 import OrderBars from './orderBars/OrderBars';
 import './Trade.scss';
 
@@ -93,7 +93,7 @@ const Trade = () => {
 						</section>
 					</section>
 					<section className="trade-conclusion">
-						<Conclusion previousClose={stockState.previousClose} stockCode={stockCode} />
+						<TradingLogs previousClose={stockState.previousClose} stockCode={stockCode} />
 					</section>
 				</section>
 			</section>

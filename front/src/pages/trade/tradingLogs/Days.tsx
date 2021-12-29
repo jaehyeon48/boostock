@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { IDailyLog } from '@src/types';
 import { dailyLogAtom } from '@recoil';
@@ -44,32 +43,32 @@ const Days = ({ stockCode }: Props) => {
 
 	return (
 		<>
-			<header className="conclusion-header">
-				<div className="conclusion-timestamp">일자</div>
-				<div className="conclusion-single-price">종가(원)</div>
-				<div className="conclusion-total-price">전일대비(%)</div>
-				<div className="conclusion-volume">체결량(주)</div>
+			<header className="trading-logs-header">
+				<div className="trading-logs-timestamp">일자</div>
+				<div className="trading-logs-single-price">종가(원)</div>
+				<div className="trading-logs-total-price">전일대비(%)</div>
+				<div className="trading-logs-volume">체결량(주)</div>
 			</header>
-			<div className="conclusion-content">
+			<div className="trading-logs-content">
 				{dailyLog.length === 0 ? (
-					<p className="conclusion-notice-no-data">일별 정보가 없습니다.</p>
+					<p className="trading-logs-notice-no-data">일별 정보가 없습니다.</p>
 				) : (
 					dailyLog.map((log: IDailyLog, index: number) => {
 						if (dailyLog.length === 51 && index === dailyLog.length - 1) return <></>;
 						const day = translateTimestampFormat(log.createdAt).split(' ');
 						const colors = colorPicker(dailyLog[index + 1]?.priceEnd, log.priceEnd);
 						return (
-							<div className="conclusion-row" key={log._id} aria-label="conclusion-list-item">
-								<div className="conclusion-timestamp">
+							<div className="trading-logs-row" key={log._id} aria-label="trading-logs-list-item">
+								<div className="trading-logs-timestamp">
 									<span className="timestamp-day">{day}</span>
 								</div>
-								<div className={`conclusion-single-price ${colors}`}>
+								<div className={`trading-logs-single-price ${colors}`}>
 									{log.priceEnd.toLocaleString('ko-kr')}
 								</div>
-								<div className={`conclusion-volume ${colors}`}>
+								<div className={`trading-logs-volume ${colors}`}>
 									{getPriceRate(dailyLog[index + 1]?.priceEnd, log.priceEnd)}
 								</div>
-								<div className="conclusion-total-price">{log.amount.toLocaleString('ko-kr')}</div>
+								<div className="trading-logs-total-price">{log.amount.toLocaleString('ko-kr')}</div>
 							</div>
 						);
 					})

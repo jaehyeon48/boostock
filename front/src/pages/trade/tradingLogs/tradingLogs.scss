@@ -1,16 +1,17 @@
 @import '@common/global.scss';
 @import '@common/mixins.scss';
 
-.conclusion-container {
+.trading-logs-container {
 	width: 100%;
 	height: 100%;
 	border-radius: $cardBorderRadius;
 }
-.conclusion-title {
+
+.trading-logs-title {
 	display: flex;
 	height: 40px;
 
-	.conclusion-tab {
+	.trading-logs-tab {
 		position: relative;
 		flex: 1;
 		height: 100%;
@@ -25,7 +26,7 @@
 		cursor: pointer;
 	}
 
-	.conclusion-tab + .conclusion-tab {
+	.trading-logs-tab + .trading-logs-tab {
 		&::before {
 			position: absolute;
 			left: 0;
@@ -35,28 +36,28 @@
 		}
 	}
 
-	.conclusion-tab-clicked {
+	.trading-logs-tab-clicked {
 		border-bottom: 4px solid $primary;
 	}
 
 	.dark-theme & {
-		.conclusion-tab {
+		.trading-logs-tab {
 			color: $white2;
 		}
 
-		.conclusion-tab-clicked {
+		.trading-logs-tab-clicked {
 			border-bottom: 4px solid $primary2;
 		}
 	}
 
-	.dark-theme & .conclusion-tab + .conclusion-tab {
+	.dark-theme & .trading-logs-tab + .trading-logs-tab {
 		&::before {
 			border-left: 1px solid $darkModeBorderColor;
 		}
 	}
 }
 
-.conclusion-content {
+.trading-logs-content {
 	overflow-y: auto;
 	height: 340px;
 
@@ -77,7 +78,8 @@
 		}
 	}
 }
-.conclusion-header {
+
+.trading-logs-header {
 	display: flex;
 	align-items: center;
 	height: 30px;
@@ -88,7 +90,7 @@
 	border-bottom: 1px solid $borderColor;
 	font-size: 12px;
 
-	.conclusion-timestamp {
+	.trading-logs-timestamp {
 		margin-left: 6px;
 	}
 
@@ -107,7 +109,8 @@
 		background-color: $darkGray;
 	}
 }
-.conclusion-timestamp {
+
+.trading-logs-timestamp {
 	flex: 3;
 	text-align: left;
 
@@ -125,19 +128,23 @@
 		}
 	}
 }
-.conclusion-total-price {
+
+.trading-logs-total-price {
 	flex: 10;
 	text-align: right;
 }
-.conclusion-volume {
+
+.trading-logs-volume {
 	flex: 10;
 	text-align: right;
 }
-.conclusion-single-price {
+
+.trading-logs-single-price {
 	flex: 10;
 	text-align: right;
 }
-.conclusion-row {
+
+.trading-logs-row {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -165,6 +172,6 @@
 	}
 }
 
-.conclusion-notice-no-data {
+.trading-logs-notice-no-data {
 	text-align: center;
 }

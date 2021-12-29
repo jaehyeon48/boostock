@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { IStockExecutionItem, IStockExecutionInfo } from '@src/types';
 import { stockExecutionAtom } from '@recoil';
@@ -29,29 +28,31 @@ const Ticks = (props: Props) => {
 
 	return (
 		<>
-			<header className="conclusion-header">
-				<div className="conclusion-timestamp">체결시간</div>
-				<div className="conclusion-single-price">체결가격(원)</div>
-				<div className="conclusion-volume">체결량(주)</div>
-				<div className="conclusion-total-price">체결금액(원)</div>
+			<header className="trading-logs-header">
+				<div className="trading-logs-timestamp">체결시간</div>
+				<div className="trading-logs-single-price">체결가격(원)</div>
+				<div className="trading-logs-volume">체결량(주)</div>
+				<div className="trading-logs-total-price">체결금액(원)</div>
 			</header>
-			<div className="conclusion-content">
+			<div className="trading-logs-content">
 				{stockExecutionState.executions.length === 0 ? (
-					<p className="conclusion-notice-no-data">체결 정보가 없습니다.</p>
+					<p className="trading-logs-notice-no-data">체결 정보가 없습니다.</p>
 				) : (
 					stockExecutionState.executions.map((log: IStockExecutionItem) => {
 						const [day, time] = translateTimestampFormat(log.timestamp).split(' ');
 						return (
-							<div className="conclusion-row" key={log.id} aria-label="conclusion-list-item">
-								<div className="conclusion-timestamp">
+							<div className="trading-logs-row" key={log.id} aria-label="trading-logs-list-item">
+								<div className="trading-logs-timestamp">
 									<span className="timestamp-day">{day}</span>
 									<span className="timestamp-time">{time}</span>
 								</div>
-								<div className={`conclusion-single-price ${colorPicker(previousClose, log.price)}`}>
+								<div
+									className={`trading-logs-single-price ${colorPicker(previousClose, log.price)}`}
+								>
 									{log.price.toLocaleString('ko-kr')}
 								</div>
-								<div className="conclusion-volume">{log.amount.toLocaleString('ko-kr')}</div>
-								<div className="conclusion-total-price">{log.volume.toLocaleString('ko-kr')}</div>
+								<div className="trading-logs-volume">{log.amount.toLocaleString('ko-kr')}</div>
+								<div className="trading-logs-total-price">{log.volume.toLocaleString('ko-kr')}</div>
 							</div>
 						);
 					})
