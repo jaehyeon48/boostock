@@ -40,6 +40,7 @@ const BidOrderBar = ({
 					type="button"
 					className="amount-button"
 					onClick={() => setBidAskPrice(bidOrder.price)}
+					aria-label="bid-price-bar"
 				>
 					<div
 						style={{

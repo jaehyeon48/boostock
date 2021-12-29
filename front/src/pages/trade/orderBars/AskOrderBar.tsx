@@ -47,6 +47,7 @@ const AskOrderBar = ({
 						previousClose
 					)}`}
 					onClick={() => setBidAskPrice(askOrder.price)}
+					aria-label="ask-price-bar"
 				>
 					{formatNumber(askOrder.price)}
 				</button>
