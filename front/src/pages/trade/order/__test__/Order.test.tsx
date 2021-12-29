@@ -10,8 +10,11 @@ test('Check whether Order view is rendered correctly', async () => {
 	const bidAvailable = await screen.findByLabelText('order-available');
 	expect(bidAvailable).toHaveTextContent('1,253,667,212,174');
 
-	const inputBoxes = await screen.findAllByRole('textbox');
-	expect(inputBoxes).toHaveLength(2);
+	const orderPriceInputBox = await screen.findByLabelText('Order price input box');
+	const orderAmountInputBox = await screen.findByLabelText('Order amount input box');
+
+	expect(orderPriceInputBox).toBeInTheDocument();
+	expect(orderAmountInputBox).toBeInTheDocument();
 
 	const resetBtn = await screen.findByRole('button', { name: /초기화/ });
 	expect(resetBtn).toBeInTheDocument();
@@ -41,12 +44,11 @@ test('Change order tab from bid to ask by clicking switch tab button', async () 
 test('Clear all inputs by clicking the reset button', async () => {
 	renderWithRecoil(<Order stockCode="HNX" />);
 
-	const inputBoxes = await screen.findAllByRole('textbox');
-	const priceInputBox = inputBoxes[0];
-	const amountInputBox = inputBoxes[1];
+	const orderPriceInputBox = await screen.findByLabelText('Order price input box');
+	const orderAmountInputBox = await screen.findByLabelText('Order amount input box');
 
-	userEvent.type(priceInputBox, '123');
-	userEvent.type(amountInputBox, '123');
+	userEvent.type(orderPriceInputBox, '123');
+	userEvent.type(orderAmountInputBox, '123');
 
 	const totalAmount = await screen.findByLabelText('Total order amount');
 	expect(totalAmount).toHaveTextContent('15,129');
@@ -55,16 +57,15 @@ test('Clear all inputs by clicking the reset button', async () => {
 	userEvent.click(resetBtn);
 
 	expect(totalAmount).toHaveTextContent('0');
-	expect(priceInputBox).toHaveTextContent('');
-	expect(amountInputBox).toHaveTextContent('');
+	expect(orderPriceInputBox).toHaveTextContent('');
+	expect(orderAmountInputBox).toHaveTextContent('');
 });
 
 test('Show an error message when a user tries to order with zero amount', async () => {
 	renderWithRecoil(<Order stockCode="HNX" />);
 
-	const inputBoxes = await screen.findAllByRole('textbox');
-	const priceInputBox = inputBoxes[0];
-	const amountInputBox = inputBoxes[1];
+	const orderPriceInputBox = await screen.findByLabelText('Order price input box');
+	const orderAmountInputBox = await screen.findByLabelText('Order amount input box');
 
 	const orderBtn = await screen.findByLabelText('order');
 	userEvent.click(orderBtn);
@@ -72,9 +73,9 @@ test('Show an error message when a user tries to order with zero amount', async 
 	const errorMessage = await screen.findByText('수량을 입력해 주세요.');
 	expect(errorMessage).toBeInTheDocument();
 
-	userEvent.type(priceInputBox, '123');
+	userEvent.type(orderPriceInputBox, '123');
 	expect(errorMessage).toBeInTheDocument();
 
-	userEvent.type(amountInputBox, '123');
+	userEvent.type(orderAmountInputBox, '123');
 	expect(errorMessage).not.toBeInTheDocument();
 });
