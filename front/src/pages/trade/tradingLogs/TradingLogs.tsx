@@ -35,6 +35,7 @@ const TradingLogs = ({ previousClose, stockCode }: Props) => {
 					type="button"
 					className={`trading-logs-tab ${tab === TAB.TICK ? 'trading-logs-tab-clicked' : ''}`}
 					onClick={() => setTab(TAB.TICK)}
+					aria-label="Realtime log tab"
 				>
 					체결
 				</button>
@@ -42,6 +43,7 @@ const TradingLogs = ({ previousClose, stockCode }: Props) => {
 					type="button"
 					className={`trading-logs-tab ${tab === TAB.DAY ? 'trading-logs-tab-clicked' : ''}`}
 					onClick={() => setTab(TAB.DAY)}
+					aria-label="Daily log tab"
 				>
 					일별
 				</button>
